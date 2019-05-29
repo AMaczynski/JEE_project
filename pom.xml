@@ -7,10 +7,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <dependencyManagement>
-
-    </dependencyManagement>
-
 
   <modules>
     <module>core</module>
