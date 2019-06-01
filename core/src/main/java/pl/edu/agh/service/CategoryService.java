@@ -1,5 +1,6 @@
 package pl.edu.agh.service;
 
+import pl.edu.agh.api.ICategoryService;
 import pl.edu.agh.datamodel.Category;
 
 import javax.persistence.EntityManager;

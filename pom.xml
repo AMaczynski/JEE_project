@@ -11,9 +11,9 @@
 
   <modules>
     <module>core</module>
-      <module>ejb-api</module>
-    <module>service</module>
-    <module>webapp</module>
+<!--      <module>ejb-api</module>-->
+<!--    <module>service</module>-->
+<!--    <module>webapp</module>-->
   </modules>
 
     <properties>

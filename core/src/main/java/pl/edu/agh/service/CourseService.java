@@ -1,5 +1,6 @@
 package pl.edu.agh.service;
 
+import pl.edu.agh.api.ICourseService;
 import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.Remote;

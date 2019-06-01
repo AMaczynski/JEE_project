@@ -1,5 +1,6 @@
 package pl.edu.agh.service;
 
+import pl.edu.agh.api.IUserService;
 import pl.edu.agh.datamodel.User;
 
 import javax.annotation.PostConstruct;

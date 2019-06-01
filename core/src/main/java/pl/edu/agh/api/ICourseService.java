@@ -1,4 +1,4 @@
-package pl.edu.agh.service;
+package pl.edu.agh.api;
 
 import pl.edu.agh.datamodel.Course;
 
