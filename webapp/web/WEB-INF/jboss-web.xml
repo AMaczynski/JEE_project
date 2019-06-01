@@ -5,4 +5,5 @@
            version="10.0">
 
     <context-root>/</context-root>
+    <security-domain>java:/jaas/mysqldomain</security-domain>
 </jboss-web>

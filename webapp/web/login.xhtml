@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+>
+
+<h:head>
+    <title>Login</title>
+</h:head>
+
+<h:body>
+
+    <form method="post" action="j_security_check" name="loginForm">
+        <h:panelGrid columns="2">
+            <h:outputLabel id="userNameLabel" for="j_username" value="Nazwa użytkownika:"/>
+            <h:inputText id="j_username"/>
+            <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
+            <h:inputSecret id="j_password"/>
+            <h:panelGroup>
+                <h:commandButton type="submit" value="#{LoginService.login()}"/>
+                <h:commandButton type="reset" value="Wyczyść"/>
+            </h:panelGroup>
+        </h:panelGrid>
+    </form>
+</h:body>
+</html>

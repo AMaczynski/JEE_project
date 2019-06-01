@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="JPA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>pl.edu.agh.datamodel.Client</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://23212.m.tld.pl:3306/baza23212_soa"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="admin23212_soa"/>
+            <property name="hibernate.connection.password" value="3Zb)vu2Cw5"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+
+
+</persistence>
