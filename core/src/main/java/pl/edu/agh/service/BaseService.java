@@ -13,7 +13,7 @@ public class BaseService {
 
     @PostConstruct
     private void init() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("MysqlPersistenceUnit");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("JPA");
         em = factory.createEntityManager();
     }
 

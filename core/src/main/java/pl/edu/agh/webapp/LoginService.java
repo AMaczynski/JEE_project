@@ -3,8 +3,12 @@ package pl.edu.agh.webapp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.edu.agh.api.ICourseService;
+import pl.edu.agh.datamodel.Course;
 
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,11 +18,12 @@ public class LoginService {
     private String username;
     private String password;
 
-//    @EJB(lookup="java:app/core-1.0-SNAPSHOT/UserServiceImpl")
-//    private UserServiceImpl userService;
+    @EJB(lookup = "java:global/core_Web2_exploded/CourseService")
+    private ICourseService courseService;
 
     public boolean login() {
-//        userService.addUser("artur", "artur123");
+        List<Course> courseList = courseService.queryAllCourses();
         return true;
     }
+
 }

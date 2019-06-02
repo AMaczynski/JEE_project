@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 
 
 @Stateless
-@Local(IUserService.class)
+@Local
 public class UserServiceImpl implements IUserService {
 
     private EntityManager em;

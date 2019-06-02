@@ -17,8 +17,7 @@
             <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
             <h:inputSecret id="j_password"/>
             <h:panelGroup>
-                <h:commandButton type="submit" value="#{LoginService.login()}"/>
-                <h:commandButton type="reset" value="Wyczyść"/>
+                <h:commandButton type="submit" value="submit" action="#{LoginService.login}"/>
             </h:panelGroup>
         </h:panelGrid>
     </form>
