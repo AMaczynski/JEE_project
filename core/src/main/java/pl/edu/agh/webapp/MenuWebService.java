@@ -1,5 +1,6 @@
 package pl.edu.agh.webapp;
 
+import lombok.Data;
 import pl.edu.agh.api.ICourseService;
 import pl.edu.agh.datamodel.Course;
 
@@ -8,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import java.util.List;
 
 @ManagedBean(name = "Menu")
+@Data
 public class MenuWebService {
 
     @EJB(lookup = "java:global/core_Web2_exploded/CourseService")

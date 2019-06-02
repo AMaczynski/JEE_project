@@ -13,17 +13,21 @@
 
 <h:body>
     <h:form id="menu">
-        <p:dataTable var="course" value="#{Menu.coursesList} sortBy=#{course.category.name}" expandableRowGroups="true">
+        <p:dataTable var="course_var" value="#{Menu.coursesList}" sortBy="#{course_var.category.name}"
+                     expandableRowGroups="true">
             <p:headerRow>
                 <p:column clospan="3">
-                    <h:outputText value="#{course.category.name}"/>
+                    <h:outputText value="#{course_var.category.name}"/>
                 </p:column>
             </p:headerRow>
             <p:column headerText="Name">
-                <h:outputText value="#{course.name}"/>
+                <h:outputText value="#{course_var.name}"/>
+            </p:column>
+            <p:column headerText="Size">
+                <h:outputText value="#{course_var.size}"/>
             </p:column>
             <p:column headerText="Prize">
-                <h:outputText value="#{course.prize}"/>
+                <h:outputText value="#{course_var.prize}"/>
             </p:column>
         </p:dataTable>
     </h:form>
