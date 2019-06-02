@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Data
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Table(name = "courses")
-public class Course {
+public class Course implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,12 @@ public class Course {
 
     @ManyToOne
     private Category category;
+
+    @Column
+    private long counter;
+
+    @Column
+    private String size;
 
 }
 

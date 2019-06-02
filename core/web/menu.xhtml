@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+<h:head>
+    <title>Menu</title>
+    <h:outputStylesheet library="css" name="table-style.css"/>
+</h:head>
+
+
+<h:body>
+    <h:form id="menu">
+        <p:dataTable var="course" value="#{Menu.coursesList} sortBy=#{course.category.name}" expandableRowGroups="true">
+            <p:headerRow>
+                <p:column clospan="3">
+                    <h:outputText value="#{course.category.name}"/>
+                </p:column>
+            </p:headerRow>
+            <p:column headerText="Name">
+                <h:outputText value="#{course.name}"/>
+            </p:column>
+            <p:column headerText="Prize">
+                <h:outputText value="#{course.prize}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+
+</html>
+

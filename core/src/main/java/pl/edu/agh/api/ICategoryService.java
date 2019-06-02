@@ -15,4 +15,6 @@ public interface ICategoryService {
     public Category queryCategoryById(long id);
 
     public List<Category> queryAllCategories();
+
+    Category getCategoryByName(String categoryName);
 }
