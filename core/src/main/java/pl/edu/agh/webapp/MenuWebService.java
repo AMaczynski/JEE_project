@@ -25,5 +25,4 @@ public class MenuWebService {
     public void setCoursesList(List<Course> coursesList) {
         this.coursesList = coursesList;
     }
-
 }

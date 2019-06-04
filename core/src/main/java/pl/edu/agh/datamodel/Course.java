@@ -41,6 +41,13 @@ public class Course implements Serializable {
     @Column
     private String size;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 
 

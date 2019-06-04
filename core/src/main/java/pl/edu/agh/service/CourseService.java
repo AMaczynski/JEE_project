@@ -21,7 +21,7 @@ public class CourseService extends BaseService implements ICourseService {
         EntityManager em = getEntityManager();
         em.persist(course);
         em.getTransaction().commit();
-//        return em.find(Course.class, course);
+        //        return em.find(Course.class, course);
     }
 
     @Override
@@ -29,12 +29,19 @@ public class CourseService extends BaseService implements ICourseService {
         EntityManager em = getEntityManager();
         Course course = em.find(Course.class, id);
         em.remove(course);
+        em.getTransaction().commit();
         return true;
     }
 
     @Override
     public Course editCourse(Course newCourse) {
-        return null;
+        EntityManager em = getEntityManager();
+        Course course = em.find(Course.class, newCourse.getId());
+        course.setName(newCourse.getName());
+        course.setCategory(newCourse.getCategory());
+        course.setPrize(newCourse.getPrize());
+        course.setSize(newCourse.getSize());
+        return em.merge(course);
     }
 
     @Override

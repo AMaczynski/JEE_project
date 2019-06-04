@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
 <h:head>
@@ -13,7 +14,14 @@
 
 <h:body>
     <h:form id="menu">
-        <p:dataTable var="course_var" value="#{Menu.coursesList}" sortBy="#{course_var.category.name}"
+        <p:growl id="msgs" showDetail="true"/>
+        <p:dataTable var="course_var"
+                     id="singleDT"
+                     value="#{Menu.coursesList}"
+                     sortBy="#{course_var.category.name}"
+                     selectionMode="single"
+                     selection="#{Course.selectedCourse}"
+                     rowKey="#{course_var.id}"
                      expandableRowGroups="true">
             <p:headerRow>
                 <p:column clospan="3">
@@ -29,8 +37,83 @@
             <p:column headerText="Prize">
                 <h:outputText value="#{course_var.prize}"/>
             </p:column>
+            <f:facet name="footer">
+                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search" value="Add new course"
+                                 oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
+                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
+                                 value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
+            </f:facet>
         </p:dataTable>
+
+        <p:contextMenu for="singleDT">
+            <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()"/>
+            <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}"/>
+        </p:contextMenu>
+
     </h:form>
+
+    <p:dialog header="Course Info" widgetVar="courseDialog" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="courseDetail" style="text-align:center;">
+            <h:form name="addCategoryForm">
+                <h:panelGrid columns="2">
+                    <h:outputLabel id="courseName" for="courseNameInplace" value="Course name"/>
+                    <p:inplace id="courseNameInplace">
+                        <h:inputText value="#{Course.selectedCourse.name}"/>
+                    </p:inplace>
+
+                    <h:outputLabel id="courseSize" for="courseSizeInput" value="Course size"/>
+                    <p:inplace id="coursSizeInplace">
+                        <h:inputText value="#{Course.selectedCourse.size}"/>
+                    </p:inplace>
+
+                    <h:outputLabel id="coursePrize" for="coursePrizeInput" value="Course prize"/>
+                    <p:inplace id="coursePriceInplace">
+                        <h:inputText value="#{Course.selectedCourse.prize}"/>
+                    </p:inplace>
+
+                    <h:outputLabel id="courseCategory" for="courseCategoryInput" value="Course category"/>
+                    <p:selectOneMenu id="courseCategoryInput" value="#{Course.categoryName}" style="width:125px">
+                        <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
+                    </p:selectOneMenu>
+
+                    <h:panelGroup>
+                        <h:commandButton type="submit" value="submit" action="#{Course.editCourse()}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Course Info" widgetVar="addCourseDialog" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="addCourseDetail" style="text-align:center;">
+            <h:form name="addCategoryForm">
+                <h:panelGrid columns="2">
+                    <h:outputLabel id="addCourseName" for="courseNameInput" value="Course name"/>
+                    <h:inputText id="courseNameInput" value="#{Course.name}"/>
+
+                    <h:outputLabel id="addCourseSize" for="courseSizeInput" value="Course size"/>
+                    <h:inputText id="courseSizeInput" value="#{Course.size}"/>
+
+                    <h:outputLabel id="addCoursePrize" for="coursePrizeInput" value="Course price"/>
+                    <h:inputText id="coursePrizeInput" value="#{Course.price}"/>
+
+                    <h:outputLabel id="addCourseCategory" for="courseCategoryInput" value="Course category"/>
+                    <p:selectOneMenu id="addCourseCategoryInput" value="#{Course.categoryName}" style="width:125px">
+                        <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
+                    </p:selectOneMenu>
+
+                    <h:panelGroup>
+                        <h:commandButton type="submit" value="submit" action="#{Course.addCourse()}"/>
+                    </h:panelGroup>
+                </h:panelGrid>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
 </h:body>
 
 </html>

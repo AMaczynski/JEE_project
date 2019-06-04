@@ -8,8 +8,12 @@ import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import static java.util.Objects.nonNull;
 
 @ManagedBean(name = "Course")
+@ViewScoped
 @Data
 public class CourseWebService {
 
@@ -19,20 +23,37 @@ public class CourseWebService {
     @EJB(lookup = "java:global/core_Web2_exploded/CategoryService")
     private ICategoryService categoryService;
 
+    private Course selectedCourse = Course.builder()
+            .name("Name")
+            .size("Size")
+            .prize(0.0)
+            .build();
     private String name;
+    private double price;
     private String size;
-    private double prize;
     private String categoryName;
 
-    public String addCourse() {
+    public String editCourse() {
+        if (nonNull(categoryName)) {
+            Category category = categoryService.getCategoryByName(categoryName);
+            selectedCourse.setCategory(category);
+        }
+        courseService.editCourse(selectedCourse);
+        return "Success";
+    }
+
+    public void addCourse() {
         Category category = categoryService.getCategoryByName(categoryName);
-        Course course = Course.builder()
+        Course newCourse = Course.builder()
                 .name(name)
+                .prize(price)
                 .size(size)
-                .prize(prize)
                 .category(category)
                 .build();
-        courseService.addCourse(course);
-        return "Success";
+        courseService.addCourse(newCourse);
+    }
+
+    public void deleteCourse() {
+        courseService.deleteCourse(selectedCourse.getId());
     }
 }
