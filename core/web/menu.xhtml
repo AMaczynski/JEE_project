@@ -50,6 +50,7 @@
         <p:contextMenu for="singleDT">
             <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()"/>
             <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}"/>
+            <p:menuitem value="Order" update="orderDetail" icon="pi pi-times" oncomplete="PF('orderDialog').show()"/>
         </p:contextMenu>
 
     </h:form>
@@ -84,6 +85,13 @@
                     </h:panelGroup>
                 </h:panelGrid>
             </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Course Info" widgetVar="orderDialog" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="orderDetail" style="text-align:center;">
+
         </p:outputPanel>
     </p:dialog>
 

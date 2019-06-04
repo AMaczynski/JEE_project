@@ -18,6 +18,7 @@ public class CourseService extends BaseService implements ICourseService {
 
     @Override
     public void addCourse(Course course) {
+        course.setIsApproved(true);
         EntityManager em = getEntityManager();
         em.persist(course);
         em.getTransaction().commit();
@@ -58,6 +59,17 @@ public class CourseService extends BaseService implements ICourseService {
         Root<Course> root = query.from(Course.class);
         CriteriaQuery<Course> all = query.select(root);
         return em.createQuery(all).getResultList();
+    }
+
+    @Override
+    public List<Course> queryAllApprovedCourses() {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Course> query = builder.createQuery(Course.class);
+        Root<Course> root = query.from(Course.class);
+        Predicate predicate = builder.equal(root.get("isApproved"), true);
+        query.where(predicate);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

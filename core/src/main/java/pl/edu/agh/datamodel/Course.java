@@ -26,10 +26,10 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private double prize;
 
     @ManyToOne
@@ -38,16 +38,12 @@ public class Course implements Serializable {
     @Column
     private long counter;
 
-    @Column
+    @Column(nullable = false)
     private String size;
 
-    public String getName() {
-        return name;
-    }
+    @Column
+    private Boolean isApproved;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
 
 

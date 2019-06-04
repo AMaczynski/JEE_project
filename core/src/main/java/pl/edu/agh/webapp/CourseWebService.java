@@ -8,12 +8,12 @@ import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 
 import static java.util.Objects.nonNull;
 
 @ManagedBean(name = "Course")
-@ViewScoped
+@RequestScoped
 @Data
 public class CourseWebService {
 

@@ -16,6 +16,8 @@ public interface ICourseService {
 
     public List<Course> queryAllCourses();
 
+    public List<Course> queryAllApprovedCourses();
+
     public List<Course> queryCourseByCategory(long categoryId);
 
 }
