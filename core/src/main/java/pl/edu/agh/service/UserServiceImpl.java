@@ -23,13 +23,4 @@ public class UserServiceImpl implements IUserService {
         em = factory.createEntityManager();
     }
 
-    public User addUser(String login, String password) {
-        User newUser = User.builder()
-                .login(login)
-                .password(password)
-                .build();
-        em.persist(newUser);
-        em.getTransaction().commit();
-        return em.find(User.class, newUser);
-    }
 }
