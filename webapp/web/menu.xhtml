@@ -40,10 +40,6 @@
             <f:facet name="footer">
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
                                  oncomplete="PF('addCourseWizard').show()"/>
-                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
-                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
-                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
-                                 value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
             </f:facet>
         </p:dataTable>
 
@@ -94,7 +90,7 @@
 
         </p:outputPanel>
     </p:dialog>
-    
+
     <p:dialog header="Add Course Wziard" widgetVar="addCourseWizard" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
         <p:outputPanel id="addCourseWizard" style="text-align:center;">
