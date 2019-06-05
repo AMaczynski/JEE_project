@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface ICategoryService {
 
-    public Category addCategory(Category category);
+    Category addCategory(Category category);
 
-    public void deleteCategory(long id);
+    void deleteCategory(long id);
 
-    public Category editCategory(Category category);
+    Category editCategory(Category category);
 
-    public Category queryCategoryById(long id);
+    Category queryCategoryById(long id);
 
-    public List<Category> queryAllCategories();
+    List<Category> queryAllCategories();
 
     Category getCategoryByName(String categoryName);
 }

@@ -5,7 +5,7 @@ import pl.edu.agh.datamodel.User;
 
 public interface IAuthService {
 
-    public User addUser(String login, String password);
+    User addUser(String login, String password);
 
-    public User authorizeUser(String login, String password);
+    User authorizeUser(String login, String password);
 }
