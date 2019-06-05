@@ -26,12 +26,11 @@ public class CourseService extends BaseService implements ICourseService {
     }
 
     @Override
-    public boolean deleteCourse(long id) {
+    public void deleteCourse(long id) {
         EntityManager em = getEntityManager();
         Course course = em.find(Course.class, id);
         em.remove(course);
         em.getTransaction().commit();
-        return true;
     }
 
     @Override

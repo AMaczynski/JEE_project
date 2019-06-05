@@ -17,7 +17,7 @@ import static java.util.Objects.nonNull;
 @RequestScoped
 public class CategoryWebService {
 
-    @EJB(lookup = "java:global/core_Web2_exploded/CategoryService")
+    @EJB(lookup = "java:global/core/CategoryService")
     private ICategoryService categoryService;
 
     private String newCategoryName;

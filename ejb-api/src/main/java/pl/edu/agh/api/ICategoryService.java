@@ -8,7 +8,7 @@ public interface ICategoryService {
 
     public Category addCategory(Category category);
 
-    public boolean deleteCategory(long id);
+    public void deleteCategory(long id);
 
     public Category editCategory(Category category);
 

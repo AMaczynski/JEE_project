@@ -17,10 +17,10 @@ import static java.util.Objects.nonNull;
 @Data
 public class CourseWebService {
 
-    @EJB(lookup = "java:global/core_Web2_exploded/CourseService")
+    @EJB(lookup = "java:global/core/CourseService")
     private ICourseService courseService;
 
-    @EJB(lookup = "java:global/core_Web2_exploded/CategoryService")
+    @EJB(lookup = "java:global/core/CategoryService")
     private ICategoryService categoryService;
 
     private Course selectedCourse = Course.builder()

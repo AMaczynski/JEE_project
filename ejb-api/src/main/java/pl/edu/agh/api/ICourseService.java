@@ -8,7 +8,7 @@ public interface ICourseService {
 
     public void addCourse(Course course);
 
-    public boolean deleteCourse(long id);
+    public void deleteCourse(long id);
 
     public Course editCourse(Course newCourse);
 

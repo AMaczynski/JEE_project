@@ -18,7 +18,7 @@ public class LoginService {
     private String username;
     private String password;
 
-    @EJB(lookup = "java:global/core_Web2_exploded/CourseService")
+    @EJB(lookup = "java:global/core/CourseService")
     private ICourseService courseService;
 
     public boolean login() {

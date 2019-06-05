@@ -12,7 +12,7 @@ import java.util.List;
 @ManagedBean(name = "Menu")
 public class MenuWebService {
 
-    @EJB(lookup = "java:global/core_Web2_exploded/CourseService")
+    @EJB(lookup = "java:global/core/CourseService")
     private ICourseService courseService;
 
     private List<Course> coursesList;

@@ -3,7 +3,7 @@ package pl.edu.agh.service;
 import pl.edu.agh.api.ICategoryService;
 import pl.edu.agh.datamodel.Category;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Stateless
-@Local(ICategoryService.class)
+@Remote(ICategoryService.class)
 public class CategoryService extends BaseService implements ICategoryService {
     @Override
     public Category addCategory(Category category) {
@@ -23,11 +23,10 @@ public class CategoryService extends BaseService implements ICategoryService {
     }
 
     @Override
-    public boolean deleteCategory(long id) {
+    public void deleteCategory(long id) {
         EntityManager em = getEntityManager();
         Category category = em.find(Category.class, id);
         em.remove(category);
-        return true;
     }
 
     @Override
