@@ -38,8 +38,8 @@
                 <h:outputText value="#{course_var.prize}"/>
             </p:column>
             <f:facet name="footer">
-                <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search" value="Add new course"
-                                 oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
+                                 oncomplete="PF('addCourseWizard').show()"/>
                 <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
                                  value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
                 <p:commandButton process="singleDT" update=":addCourseDetail" icon="pi pi-search"
@@ -94,30 +94,61 @@
 
         </p:outputPanel>
     </p:dialog>
-
-    <p:dialog header="Course Info" widgetVar="addCourseDialog" modal="true" showEffect="fade" hideEffect="fade"
+    
+    <p:dialog header="Add Course Wziard" widgetVar="addCourseWizard" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
-        <p:outputPanel id="addCourseDetail" style="text-align:center;">
-            <h:form name="addCategoryForm">
-                <h:panelGrid columns="2">
-                    <h:outputLabel id="addCourseName" for="courseNameInput" value="Course name"/>
-                    <h:inputText id="courseNameInput" value="#{Course.name}"/>
+        <p:outputPanel id="addCourseWizard" style="text-align:center;">
+            <h:form name="addCourseWizardForm">
+                <p:growl id="growl" sticky="true" showDetail="true"/>
+                <p:wizard flowListener="#{Menu.onFlowProcess}">
+                    <p:tab id="category" title="Category Details">
+                        <p:panel header="Category Details">
+                            <p:messages/>
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputLabel id="addCourseCategory" for="courseCategoryInput"
+                                               value="Course category"/>
+                                <p:selectOneMenu id="addCourseCategoryInput" required="true"
+                                                 value="#{Course.categoryName}" style="width:125px">
+                                    <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab id="courseDetails" title="Course Details">
+                        <p:panel header="Course Details">
+                            <p:messages/>
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputLabel id="addCourseName" for="courseNameInput" value="Course name"/>
+                                <h:inputText id="courseNameInput" required="true" value="#{Course.name}"/>
 
-                    <h:outputLabel id="addCourseSize" for="courseSizeInput" value="Course size"/>
-                    <h:inputText id="courseSizeInput" value="#{Course.size}"/>
+                                <h:outputLabel id="addCourseSize" for="courseSizeInput" value="Course size"/>
+                                <h:inputText id="courseSizeInput" required="true" value="#{Course.size}"/>
 
-                    <h:outputLabel id="addCoursePrize" for="coursePrizeInput" value="Course price"/>
-                    <h:inputText id="coursePrizeInput" value="#{Course.price}"/>
+                                <h:outputLabel id="addCoursePrize" for="coursePrizeInput" value="Course price"/>
+                                <h:inputText id="coursePrizeInput" required="true" value="#{Course.price}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab id="confirm" title="Confirmation">
+                        <p:panel header="Confirmation">
+                            <h:panelGrid id="confirmation" columns="2" columnClasses="label, value">
+                                <h:outputText value="Name: "/>
+                                <h:outputText value="#{Course.name}" styleClass="ui-outputlabel"/>
 
-                    <h:outputLabel id="addCourseCategory" for="courseCategoryInput" value="Course category"/>
-                    <p:selectOneMenu id="addCourseCategoryInput" value="#{Course.categoryName}" style="width:125px">
-                        <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
-                    </p:selectOneMenu>
+                                <h:outputText value="Size: "/>
+                                <h:outputText value="#{Course.size}" styleClass="ui-outputlabel"/>
 
-                    <h:panelGroup>
-                        <h:commandButton type="submit" value="submit" action="#{Course.addCourse()}"/>
-                    </h:panelGroup>
-                </h:panelGrid>
+                                <h:outputText value="Price: "/>
+                                <h:outputText value="#{Course.price}" styleClass="ui-outputlabel"/>
+
+                                <h:outputText value="Category: "/>
+                                <h:outputText value="#{Course.categoryName}" styleClass="ui-outputlabel"/>
+                            </h:panelGrid>
+                            <p:commandButton type="submit" value="Submit" action="#{Course.addCourse}" update="menu"
+                                             process="@this"/>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
             </h:form>
         </p:outputPanel>
     </p:dialog>

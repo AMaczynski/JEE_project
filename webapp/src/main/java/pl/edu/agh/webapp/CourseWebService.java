@@ -7,13 +7,15 @@ import pl.edu.agh.datamodel.Category;
 import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import static java.util.Objects.nonNull;
 
 @ManagedBean(name = "Course")
-@RequestScoped
+@ViewScoped
 @Data
 public class CourseWebService {
 
@@ -51,6 +53,8 @@ public class CourseWebService {
                 .category(category)
                 .build();
         courseService.addCourse(newCourse);
+        FacesMessage msg = new FacesMessage("Successful", "Course successfully added");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void deleteCourse() {

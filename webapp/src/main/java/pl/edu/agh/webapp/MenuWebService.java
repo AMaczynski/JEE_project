@@ -1,14 +1,15 @@
 package pl.edu.agh.webapp;
 
+import org.primefaces.event.FlowEvent;
 import pl.edu.agh.api.ICourseService;
 import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean(name = "Menu")
 public class MenuWebService {
 
@@ -24,5 +25,9 @@ public class MenuWebService {
 
     public void setCoursesList(List<Course> coursesList) {
         this.coursesList = coursesList;
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        return event.getNewStep();
     }
 }

@@ -6,7 +6,7 @@ import pl.edu.agh.datamodel.Category;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +14,7 @@ import static java.util.Objects.nonNull;
 
 @ManagedBean(name = "Category")
 @Data
-@RequestScoped
+@ViewScoped
 public class CategoryWebService {
 
     @EJB(lookup = "java:global/core/CategoryService")
