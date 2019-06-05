@@ -5,6 +5,8 @@
         <class>pl.edu.agh.datamodel.Client</class>
         <class>pl.edu.agh.datamodel.Course</class>
         <class>pl.edu.agh.datamodel.Category</class>
+        <class>pl.edu.agh.datamodel.User</class>
+        <class>pl.edu.agh.datamodel.Order</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
