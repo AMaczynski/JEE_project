@@ -27,5 +27,5 @@ public class Address {
     private int buildingNumber;
 
     @Column
-    private int roomNumber;
+    private int apartmentNumber;
 }

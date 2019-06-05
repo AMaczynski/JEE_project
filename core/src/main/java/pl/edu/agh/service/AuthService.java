@@ -1,10 +1,12 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IAuthService;
+import pl.edu.agh.api.ICategoryService;
 import pl.edu.agh.datamodel.User;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,19 +18,13 @@ import javax.persistence.criteria.Root;
 
 
 @Stateless
-@Local
-public class AuthServiceImpl implements IAuthService {
-
-    private EntityManager em;
-
-    @PostConstruct
-    private void init() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("MysqlPersistenceUnit");
-        em = factory.createEntityManager();
-    }
+@Remote(IAuthService.class)
+public class AuthService extends BaseService implements IAuthService {
 
     @Override
     public User addUser(String login, String password) {
+        EntityManager em = getEntityManager();
+
         User newUser = User.builder()
                 .login(login)
                 .password(password)
@@ -40,6 +36,8 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public User authorizeUser(String login, String password) {
+        EntityManager em = getEntityManager();
+
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> query = builder.createQuery(User.class);
         Root<User> root = query.from(User.class);

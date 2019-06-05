@@ -20,12 +20,8 @@ public class CartService {
         cart = new ArrayList<>();
     }
 
-    public String summary() {
-        return ("summary");
-    }
-
-    public String getSummary() {
-        return ("summary");
+    public String order() {
+        return ("order");
     }
 
     public void add() {
