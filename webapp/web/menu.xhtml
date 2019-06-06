@@ -16,10 +16,10 @@
 
     <h:form id="menu">
         <p:commandLink id="summary"
-                       action="#{Cart.summary}"
+                       action="#{Cart.order}"
                        immediate="true"
                        rendered="#{Cart.cartSize > 0}">
-            <h:outputText value="Summary (#{Cart.cartSize} courses)"/>
+            <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
         </p:commandLink>
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable var="course_var"

@@ -29,8 +29,17 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @ManyToOne
-    private Address address;
+    @Column
+    private String city;
+
+    @Column
+    private String street;
+
+    @Column
+    private int buildingNumber;
+
+    @Column
+    private int roomNumber;
 
     @ManyToOne
     private Schedule schedule;

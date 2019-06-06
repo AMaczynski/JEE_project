@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.ICourseService;
+import pl.edu.agh.datamodel.Category;
 import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.Remote;
@@ -20,6 +21,18 @@ public class CourseService extends BaseService implements ICourseService {
     public Course addCourse(Course course) {
         course.setIsApproved(true);
         EntityManager em = getEntityManager();
+        em.persist(course);
+        em.getTransaction().commit();
+        return course;
+    }
+
+    @Override
+    public Course addNotApprovedCourse(Course course) {
+        course.setIsApproved(false);
+        EntityManager em = getEntityManager();
+        if (em.find(Category.class, course.getCategory().getId()) == null) {
+            em.persist(course.getCategory());
+        }
         em.persist(course);
         em.getTransaction().commit();
         return course;

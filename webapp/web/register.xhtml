@@ -4,12 +4,11 @@
       xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-    <title>Login</title>
+    <title>Register</title>
 </h:head>
 
 <h:body>
 
-    <!--    <form method="post" action="j_security_check" name="loginForm">-->
     <h:form id="form">
 
         <h:panelGrid columns="2">
@@ -18,7 +17,7 @@
             <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
             <h:inputSecret id="j_password" value="#{LoginRegisterService.inputPassword}"/>
             <h:panelGroup>
-                <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}"/>
+                <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}"/>
             </h:panelGroup>
         </h:panelGrid>
     </h:form>

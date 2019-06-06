@@ -6,18 +6,20 @@ import java.util.List;
 
 public interface ICourseService {
 
-    public Course addCourse(Course course);
+    Course addCourse(Course course);
 
-    public void deleteCourse(long id);
+    Course addNotApprovedCourse(Course course);
 
-    public Course editCourse(Course newCourse);
+    void deleteCourse(long id);
 
-    public Course queryCourseById(long id);
+    Course editCourse(Course newCourse);
 
-    public List<Course> queryAllCourses();
+    Course queryCourseById(long id);
 
-    public List<Course> queryAllApprovedCourses();
+    List<Course> queryAllCourses();
 
-    public List<Course> queryCourseByCategory(long categoryId);
+    List<Course> queryAllApprovedCourses();
+
+    List<Course> queryCourseByCategory(long categoryId);
 
 }
