@@ -11,7 +11,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 @Remote(ICourseService.class)
@@ -81,7 +83,8 @@ public class CourseService extends BaseService implements ICourseService {
         Root<Course> root = query.from(Course.class);
         Predicate predicate = builder.equal(root.get("isApproved"), true);
         query.where(predicate);
-        return em.createQuery(query).getResultList();
+        List<Course> courses = em.createQuery(query).getResultList();
+        return courses.stream().sorted(Comparator.comparing(e -> e.getCategory().getName())).collect(Collectors.toList());
     }
 
     @Override

@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Time;
 
 @Entity
 @Data
 @Table(name = "schedules")
-public class Schedule {
+public class Schedule implements Serializable {
 
     @Id
     @GeneratedValue

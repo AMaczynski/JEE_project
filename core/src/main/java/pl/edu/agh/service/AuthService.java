@@ -26,7 +26,7 @@ public class AuthService extends BaseService implements IAuthService {
                 .build();
         em.persist(newUser);
         em.getTransaction().commit();
-        return em.find(User.class, newUser);
+        return newUser;
     }
 
     @Override
