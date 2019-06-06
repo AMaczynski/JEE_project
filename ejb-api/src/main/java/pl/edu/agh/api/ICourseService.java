@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ICourseService {
 
-    public void addCourse(Course course);
+    public Course addCourse(Course course);
 
     public void deleteCourse(long id);
 

@@ -19,7 +19,6 @@ public class Schedule {
     @GeneratedValue
     private long id;
 
-
     @Column
     private Time time;
 }

@@ -17,12 +17,12 @@ import java.util.List;
 public class CourseService extends BaseService implements ICourseService {
 
     @Override
-    public void addCourse(Course course) {
+    public Course addCourse(Course course) {
         course.setIsApproved(true);
         EntityManager em = getEntityManager();
         em.persist(course);
         em.getTransaction().commit();
-        //        return em.find(Course.class, course);
+        return course;
     }
 
     @Override
