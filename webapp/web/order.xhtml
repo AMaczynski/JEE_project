@@ -35,8 +35,14 @@
                        immediate="true">
             <h:outputText value="Back to menu"/>
         </p:commandLink>
+        <p:commandLink id="login"
+                       action="login"
+                       immediate="true"
+                        rendered="#{!User.logged}">
+            <h:outputText value="Login to proceed"/>
+        </p:commandLink>
     </h:form>
-    <h:form id="form">
+    <h:form id="form" rendered="#{User.logged}">
         <h:panelGrid id="panelgrid">
 
             Order mode

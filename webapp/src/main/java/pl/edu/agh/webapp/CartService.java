@@ -26,7 +26,8 @@ public class CartService {
 
     public void add() {
         Course course = (Course) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("course");
-        cart.add(course);
+        if (course != null)
+            cart.add(course);
     }
 
 

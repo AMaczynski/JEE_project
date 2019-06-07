@@ -16,6 +16,14 @@
             <h:inputText id="j_username" value="#{LoginRegisterService.inputLogin}"/>
             <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
             <h:inputSecret id="j_password" value="#{LoginRegisterService.inputPassword}"/>
+            City
+            <h:inputText value="#{LoginRegisterService.address.city}"/>
+            Street
+            <h:inputText value="#{LoginRegisterService.address.street}"/>
+            Building number
+            <h:inputText value="#{LoginRegisterService.address.buildingNumber}"/>
+            Apartment number
+            <h:inputText value="#{LoginRegisterService.address.apartmentNumber}"/>
             <h:panelGroup>
                 <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}"/>
             </h:panelGroup>

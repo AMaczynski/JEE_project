@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IOrderService;
+import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Order;
 
 import javax.ejb.Remote;
@@ -17,9 +18,12 @@ import java.util.List;
 public class OrderService extends BaseService implements IOrderService {
 
     @Override
-    public Order placeOrder(Order order) {
+    public Order placeOrder(Order order, List<Course> courses) {
+
         EntityManager em = getEntityManager();
+        order.setCourses(courses);
         em.persist(order);
+        em.getTransaction().commit();
         return order;
     }
 

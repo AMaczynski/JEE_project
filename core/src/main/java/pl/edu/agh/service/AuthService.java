@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IAuthService;
+import pl.edu.agh.datamodel.Address;
 import pl.edu.agh.datamodel.User;
 
 import javax.ejb.Remote;
@@ -23,6 +24,21 @@ public class AuthService extends BaseService implements IAuthService {
         User newUser = User.builder()
                 .login(login)
                 .password(password)
+                .build();
+        em.persist(newUser);
+        em.getTransaction().commit();
+        return newUser;
+    }
+
+    @Override
+    public User addUser(String login, String password, Address address) {
+        EntityManager em = getEntityManager();
+        em.persist(address);
+
+        User newUser = User.builder()
+                .login(login)
+                .password(password)
+                .address(address)
                 .build();
         em.persist(newUser);
         em.getTransaction().commit();
