@@ -13,6 +13,8 @@
 
 
 <h:body>
+    <p:commandButton value="Send message" action="#{JMS.sendMessage()}"/>
+    <p:commandButton update=":displayMessage" value="Display message" oncomplete="PF('displayMessage').show()"/>
 
     <h:form id="menu">
         <p:commandLink id="summary"
@@ -47,8 +49,8 @@
             <f:facet name="footer">
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
                                  oncomplete="PF('addCourseWizard').show()"/>
-                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
-                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCategoryWizard" icon="pi pi-search"
+                                 value="Add new categories" oncomplete="PF('addCategoryDialog').show()"/>
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
                                  value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
             </f:facet>
@@ -68,7 +70,7 @@
     <p:dialog header="Course Info" widgetVar="courseDialog" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
         <p:outputPanel id="courseDetail" style="text-align:center;">
-            <h:form name="addCategoryForm">
+            <h:form name="courseDetails">
                 <h:panelGrid columns="2">
                     <h:outputLabel id="courseName" for="courseNameInplace" value="Course name"/>
                     <p:inplace id="courseNameInplace">
@@ -102,6 +104,13 @@
               resizable="false">
         <p:outputPanel id="orderDetail" style="text-align:center;">
 
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Add Course Wziard" widgetVar="displayMessage" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="displayMessage" style="text-align:center;">
+            <h:outputText value="#{JMS.receiveMessage()}"/>
         </p:outputPanel>
     </p:dialog>
 
@@ -156,6 +165,31 @@
                             </h:panelGrid>
                             <p:commandButton type="submit" value="Submit" action="#{Course.addCourse}" update="menu"
                                              process="@this"/>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
+
+    <p:dialog header="Add Course Wziard" widgetVar="addCourseWizard" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="addCategoryWizard" style="text-align:center;">
+            <h:form name="addCourseWizardForm">
+                <p:growl id="growl1" sticky="true" showDetail="true"/>
+                <p:wizard flowListener="#{Menu.onFlowProcess}">
+                    <p:tab id="category1" title="Category Details">
+                        <p:panel header="Category Details">
+                            <p:messages/>
+                            <h:panelGrid columns="2" columnClasses="label, value">
+                                <h:outputLabel id="addCourseCategory1" for="courseCategoryInput"
+                                               value="Course category"/>
+                                <p:selectOneMenu id="addCourseCategoryInput1" required="true"
+                                                 value="#{Course.categoryName}" style="width:125px">
+                                    <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
                         </p:panel>
                     </p:tab>
                 </p:wizard>
