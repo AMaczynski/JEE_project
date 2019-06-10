@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -47,6 +48,21 @@ public class OrderService extends BaseService implements IOrderService {
         Root<Order> root = query.from(Order.class);
         Predicate predicate = builder.equal(root.get("user"), userId);
         query.where(predicate);
+        return em.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<Order> getUserOrdersInDateRange(long userId, Date dateFrom, Date dateTo) {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Order> query = builder.createQuery(Order.class);
+        Root<Order> root = query.from(Order.class);
+        Predicate predicate = builder.equal(root.get("user"), userId);
+        Predicate predFrom = builder.between(root.get("date"), dateFrom, dateTo);
+        System.out.println(dateFrom.toString());
+        System.out.println(dateTo.toString());
+        Predicate pred = builder.and(predicate, predFrom);
+        query.where(pred);
         return em.createQuery(query).getResultList();
     }
 }

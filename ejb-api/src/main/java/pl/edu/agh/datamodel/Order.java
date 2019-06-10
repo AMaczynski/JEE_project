@@ -16,7 +16,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany
+    @ManyToMany
     private List<Course> courses;
 
     @Column

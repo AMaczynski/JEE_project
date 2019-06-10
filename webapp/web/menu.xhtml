@@ -13,14 +13,29 @@
 
 
 <h:body>
-    <p:commandButton value="Send message" action="#{JMS.sendMessage()}"/>
-    <p:commandButton update=":displayMessage" value="Display message" oncomplete="PF('displayMessage').show()"/>
-
     <h:form id="menu">
+        <p:growl id="messages"/>
+
+        <p:menubar>
+            <p:menuitem value="Order history" action="history" icon="pi pi-times"/>
+            <p:submenu label="Admin" icon="pi pi-cog">
+                <p:menuitem value="Add course" action="PF('addCourseWizard').show()" icon="pi pi-save" update="menu"/>
+                <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
+                <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
+            </p:submenu>
+
+            <f:facet name="options">
+                <p:commandButton type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home"/>
+                <p:commandButton type="button" value="Login" oncomplete="PF('sidebarLogin').show()"
+                                 rendered="#{!User.logged}" icon="pi pi-home"/>
+            </f:facet>
+        </p:menubar>
+
         <p:commandLink id="summary"
                        action="#{Cart.order}"
                        immediate="true"
                        rendered="#{Cart.cartSize > 0}">
+            <h:outputText value="Summary (#{Cart.cartSize} courses)"/>
             <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
         </p:commandLink>
         <p:growl id="msgs" showDetail="true"/>
@@ -49,8 +64,8 @@
             <f:facet name="footer">
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
                                  oncomplete="PF('addCourseWizard').show()"/>
-                <p:commandButton process="singleDT" update=":addCategoryWizard" icon="pi pi-search"
-                                 value="Add new categories" oncomplete="PF('addCategoryDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
+                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
                                  value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
             </f:facet>
@@ -70,7 +85,7 @@
     <p:dialog header="Course Info" widgetVar="courseDialog" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
         <p:outputPanel id="courseDetail" style="text-align:center;">
-            <h:form name="courseDetails">
+            <h:form name="addCategoryForm">
                 <h:panelGrid columns="2">
                     <h:outputLabel id="courseName" for="courseNameInplace" value="Course name"/>
                     <p:inplace id="courseNameInplace">
@@ -104,13 +119,6 @@
               resizable="false">
         <p:outputPanel id="orderDetail" style="text-align:center;">
 
-        </p:outputPanel>
-    </p:dialog>
-
-    <p:dialog header="Add Course Wziard" widgetVar="displayMessage" modal="true" showEffect="fade" hideEffect="fade"
-              resizable="false">
-        <p:outputPanel id="displayMessage" style="text-align:center;">
-            <h:outputText value="#{JMS.receiveMessage()}"/>
         </p:outputPanel>
     </p:dialog>
 
@@ -171,33 +179,23 @@
             </h:form>
         </p:outputPanel>
     </p:dialog>
-
-
-    <p:dialog header="Add Course Wziard" widgetVar="addCourseWizard" modal="true" showEffect="fade" hideEffect="fade"
-              resizable="false">
-        <p:outputPanel id="addCategoryWizard" style="text-align:center;">
-            <h:form name="addCourseWizardForm">
-                <p:growl id="growl1" sticky="true" showDetail="true"/>
-                <p:wizard flowListener="#{Menu.onFlowProcess}">
-                    <p:tab id="category1" title="Category Details">
-                        <p:panel header="Category Details">
-                            <p:messages/>
-                            <h:panelGrid columns="2" columnClasses="label, value">
-                                <h:outputLabel id="addCourseCategory1" for="courseCategoryInput"
-                                               value="Course category"/>
-                                <p:selectOneMenu id="addCourseCategoryInput1" required="true"
-                                                 value="#{Course.categoryName}" style="width:125px">
-                                    <f:selectItems value="#{Category.getAllCategoriesNames()}"/>
-                                </p:selectOneMenu>
-                            </h:panelGrid>
-                        </p:panel>
-                    </p:tab>
-                </p:wizard>
-            </h:form>
-        </p:outputPanel>
-    </p:dialog>
-
+    <p:sidebar widgetVar="sidebarLogin" position="right" baseZIndex="10000">
+        <h1 style="font-weight:normal">Right Sidebar</h1>
+        <h:form id="formLogin">
+            <h:panelGrid columns="2">
+                <h:outputLabel id="userNameLabel" for="j_username" value="Nazwa użytkownika:"/>
+                <h:inputText id="j_username" value="#{LoginRegisterService.inputLogin}"/>
+                <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
+                <h:inputSecret id="j_password" value="#{LoginRegisterService.inputPassword}"/>
+                <h:panelGroup>
+                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}"/>
+                    <p:commandButton value="Cancel" oncomplete="PF('sidebarLogin').hide()"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:form>
+    </p:sidebar>
 </h:body>
 
 </html>
+
 

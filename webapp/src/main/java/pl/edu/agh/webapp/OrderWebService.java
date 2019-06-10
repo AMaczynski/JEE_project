@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name = "Order")
 @Data
@@ -26,15 +27,23 @@ public class OrderWebService {
     private IOrderService orderService;
 
     private Address address = new Address();
+    private Date dateTo;
+    private Date dateFrom;
+    private Order selectedOrder;
+
+    private List<Order> userOrders;
 
     private int orderMode = 0;
     private int frequency = -1;
 
     @PostConstruct
     public void init() {
-        if (userService.isLogged())
+        if (userService.isLogged()) {
             address = userService.getUser().getAddress();
+            userOrders = orderService.getUserOrders(userService.getUser().getId());
+        }
     }
+
     public boolean isOneTime() {
         return orderMode == 0;
     }
@@ -54,5 +63,10 @@ public class OrderWebService {
         newOrder.setDate(new Date());
         orderService.placeOrder(newOrder, cartService.getCourses());
         return "orderSuccess";
+    }
+
+
+    public void filterByDates() {
+        userOrders = orderService.getUserOrdersInDateRange(userService.getUser().getId(), dateFrom, dateTo);
     }
 }
