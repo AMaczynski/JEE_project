@@ -16,7 +16,7 @@
 
     <h:form id="summary">
 
-        <p:dataTable var="course_var" value="#{Cart.courses}">
+        <p:dataTable var="course_var" value="#{Cart.cart}">
             <p:column headerText="Name">
                 <h:outputText value="#{course_var.name}"/>
             </p:column>
@@ -57,16 +57,10 @@
                 One time masterrace
             </h:panelGrid>
             <h:panelGrid id="pSchedule" rendered="#{Order.scheduled}">
-                <h:selectOneMenu value="#{Order.frequency}">
-                    <f:selectItem itemValue="#{null}" noSelectionOption="true"/>
-                    <f:selectItem itemValue="0" itemLabel="Every Monday"/>
-                    <f:selectItem itemValue="1" itemLabel="Every Tuesday"/>
-                    <f:selectItem itemValue="2" itemLabel="Every Wednesday"/>
-                    <f:selectItem itemValue="3" itemLabel="Every Thursday"/>
-                    <f:selectItem itemValue="4" itemLabel="Every Friday"/>
-                    <f:selectItem itemValue="5" itemLabel="Every Saturday"/>
-                    <f:selectItem itemValue="6" itemLabel="Every Sunday"/>
-                </h:selectOneMenu>
+                <p:selectCheckboxMenu id="multiple" value="#{Order.selectedDays}" label="Days" multiple="true"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                    <f:selectItems value="#{Order.dayOfWeeks}"/>
+                </p:selectCheckboxMenu>
             </h:panelGrid>
             City
             <h:inputText value="#{Order.address.city}"/>

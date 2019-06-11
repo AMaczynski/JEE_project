@@ -74,10 +74,7 @@
         <p:contextMenu for="singleDT">
             <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()"/>
             <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}"/>
-            <p:menuitem value="Order" update="menu" icon="pi pi-times" oncomplete="#{Cart.add()}">
-                <f:setPropertyActionListener target="#{requestScope.course}"
-                                             value="#{Course.selectedCourse}"/>
-            </p:menuitem>
+            <p:menuitem value="Order" update="menu" icon="pi pi-times" action="#{Cart.add()}"/>
         </p:contextMenu>
 
     </h:form>

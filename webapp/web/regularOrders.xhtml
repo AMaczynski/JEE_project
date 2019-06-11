@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+<h:head>
+    <title>Menu</title>
+    <h:outputStylesheet library="css" name="table-style.css"/>
+</h:head>
+
+
+<h:body>
+    <h:form id="menu">
+        <p:growl id="messages"/>
+
+        <p:menubar>
+            <p:menuitem value="Order history" action="history" icon="pi pi-times"/>
+            <p:submenu label="Admin" icon="pi pi-cog">
+                <p:menuitem value="Add course" action="PF('addCourseWizard').show()" icon="pi pi-save" update="menu"/>
+                <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
+                <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
+            </p:submenu>
+
+            <f:facet name="options">
+                <p:commandButton type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home"/>
+                <p:commandButton type="button" value="Login" oncomplete="PF('sidebarLogin').show()"
+                                 rendered="#{!User.logged}" icon="pi pi-home"/>
+            </f:facet>
+        </p:menubar>
+
+        <p:commandLink id="summary"
+                       action="#{Cart.order}"
+                       immediate="true"
+                       rendered="#{Cart.cartSize > 0}">
+            <h:outputText value="Summary (#{Cart.cartSize} courses)"/>
+            <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
+        </p:commandLink>
+        <p:growl id="msgs" showDetail="true"/>
+        <p:dataTable var="course_var"
+                     id="singleDT"
+                     value="#{Menu.coursesList}"
+                     sortBy="#{course_var.category.name}"
+                     selectionMode="single"
+                     selection="#{Course.selectedCourse}"
+                     rowKey="#{course_var.id}"
+                     expandableRowGroups="true">
+            <p:headerRow>
+                <p:column clospan="3">
+                    <h:outputText value="#{course_var.category.name}"/>
+                </p:column>
+            </p:headerRow>
+            <p:column headerText="Name">
+                <h:outputText value="#{course_var.name}"/>
+            </p:column>
+            <p:column headerText="Size">
+                <h:outputText value="#{course_var.size}"/>
+            </p:column>
+            <p:column headerText="Prize">
+                <h:outputText value="#{course_var.prize}"/>
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
+                                 oncomplete="PF('addCourseWizard').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
+                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
+                                 value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
+            </f:facet>
+        </p:dataTable>
+
+        <p:contextMenu for="singleDT">
+            <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()"/>
+            <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}"/>
+            <p:menuitem value="Order" update="menu" icon="pi pi-times" oncomplete="#{Cart.add()}">
+                <f:setPropertyActionListener target="#{requestScope.course}"
+                                             value="#{Course.selectedCourse}"/>
+            </p:menuitem>
+        </p:contextMenu>
+
+    </h:form>
+
+
+</h:body>
+
+</html>
+
+

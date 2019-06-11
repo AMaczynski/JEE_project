@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name = "User")
 @SessionScoped
 public class UserService {
+
     private User user;
 
     public boolean isLogged() {

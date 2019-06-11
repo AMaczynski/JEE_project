@@ -1,14 +1,25 @@
 package pl.edu.agh.datamodel;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "orders")
 public class Order implements Serializable {
 
@@ -16,8 +27,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany
-    private List<Course> courses;
+    @ManyToOne
+    private Course course;
 
     @Column
     private Date date;
@@ -25,18 +36,6 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-    @Column
-    private String city;
-
-    @Column
-    private String street;
-
-    @Column
-    private int buildingNumber;
-
-    @Column
-    private int apartmentNumber;
-
     @ManyToOne
-    private Schedule schedule;
+    private Address address;
 }
