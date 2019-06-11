@@ -30,7 +30,7 @@ public class RegularOrdersWebService {
         schedules = scheduleService.getSchedulesByUser(userService.getUser().getId());
     }
 
-    public void getDeleteSchedule() {
+    public void deleteSchedule() {
         scheduleService.deleteSchedule(selectedSchedule.getId());
     }
 }
