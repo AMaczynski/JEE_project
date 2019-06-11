@@ -17,9 +17,16 @@
         <p:growl id="messages"/>
 
         <p:menubar>
+            <p:menuitem type="button" icon="pi pi-home" rendered="#{Cart.cartSize > 0}">
+                <p:commandLink id="summary"
+                               action="#{Cart.order}"
+                               immediate="true">
+                    <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
+                </p:commandLink>
+            </p:menuitem>
             <p:menuitem value="Order history" action="history" icon="pi pi-times"/>
             <p:submenu label="Admin" icon="pi pi-cog">
-                <p:menuitem type="button" icon="pi pi-home">
+                <p:menuitem icon="pi pi-home">
                     <p:commandLink id="addCourse"
                                    oncomplete="PF('addCourseWizard').show()"
                                    immediate="true">
@@ -31,7 +38,14 @@
             </p:submenu>
 
             <f:facet name="options">
-                <p:menuitem type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home"/>
+                <p:menuitem type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home">
+                    <p:commandLink id="logout"
+                                   action="#{User.logout}"
+                                   immediate="true"
+                                    update="menu">
+                        <h:outputText value="Logout"/>
+                    </p:commandLink>
+                </p:menuitem>
                 <p:menuitem type="button" value="Login" rendered="#{!User.logged}" icon="pi pi-home">
                     <p:commandLink id="showLogin"
                                    oncomplete="PF('sidebarLogin').show()"
@@ -41,13 +55,6 @@
                 </p:menuitem>
             </f:facet>
         </p:menubar>
-
-        <p:commandLink id="summary"
-                       action="#{Cart.order}"
-                       immediate="true"
-                       rendered="#{Cart.cartSize > 0}">
-            <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
-        </p:commandLink>
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable var="course_var"
                      id="singleDT"

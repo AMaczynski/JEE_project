@@ -20,4 +20,6 @@ public class UserService {
     public boolean isLogged() {
         return user != null;
     }
+
+    public void logout() { user = null; }
 }
