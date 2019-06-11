@@ -7,4 +7,8 @@ import java.util.List;
 public interface IScheduleService {
 
     void addSchedules(List<Schedule> scheduleList);
+
+    List<Schedule> getSchedulesByUser(long userId);
+
+    void deleteSchedule(long scheduleId);
 }
