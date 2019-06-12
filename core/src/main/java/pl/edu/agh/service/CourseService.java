@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,6 +85,9 @@ public class CourseService extends BaseService implements ICourseService {
         Predicate predicate = builder.equal(root.get("isApproved"), true);
         query.where(predicate);
         List<Course> courses = em.createQuery(query).getResultList();
+        if (courses.isEmpty()) {
+            return Collections.emptyList();
+        }
         return courses.stream().sorted(Comparator.comparing(e -> e.getCategory().getName())).collect(Collectors.toList());
     }
 

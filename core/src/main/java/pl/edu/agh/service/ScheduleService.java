@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class ScheduleService extends BaseService implements IScheduleService {
         Predicate predicate = builder.equal(root.get("user"), userId);
         query.where(predicate);
         List<Schedule> schedules = em.createQuery(query).getResultList();
+        if (schedules.isEmpty()) {
+            return Collections.emptyList();
+        }
         return schedules.stream()
                 .sorted(Comparator.comparing(e -> e.getDayOfWeek().toString()))
                 .collect(Collectors.toList());
@@ -45,6 +49,7 @@ public class ScheduleService extends BaseService implements IScheduleService {
     public void deleteSchedule(long scheduleId) {
         EntityManager em = getEntityManager();
         Schedule schedule = em.find(Schedule.class, scheduleId);
+        System.out.println(schedule.getCourse().getName() + " : lol : " + schedule.getId());
         em.remove(schedule);
         em.getTransaction().commit();
     }
