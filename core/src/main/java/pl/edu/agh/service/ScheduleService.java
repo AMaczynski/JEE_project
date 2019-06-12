@@ -49,7 +49,6 @@ public class ScheduleService extends BaseService implements IScheduleService {
     public void deleteSchedule(long scheduleId) {
         EntityManager em = getEntityManager();
         Schedule schedule = em.find(Schedule.class, scheduleId);
-        System.out.println(schedule.getCourse().getName() + " : lol : " + schedule.getId());
         em.remove(schedule);
         em.getTransaction().commit();
     }

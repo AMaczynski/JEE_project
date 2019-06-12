@@ -106,31 +106,25 @@ public class OrderWebService {
     }
 
     private void addOneTimeOrder(Address address) {
-        List<Order> newOrders = new ArrayList<>();
-        for (Course course : cartService.getCart()) {
-            Order order = Order.builder()
-                    .address(address)
-                    .course(course)
-                    .date(new Date())
-                    .user(userService.getUser())
-                    .build();
-            newOrders.add(order);
-        }
-        orderService.placeOrder(newOrders);
+        Order order = Order.builder()
+                .address(address)
+                .course(cartService.getCart())
+                .date(new Date())
+                .user(userService.getUser())
+                .build();
+        orderService.placeOrder(order);
     }
 
     private void addScheduledOrder(Address address) {
         List<Schedule> schedules = new ArrayList<>();
         for (DayOfWeek dayOfWeek : selectedDays) {
-            for (Course course : cartService.getCart()) {
                 Schedule schedule = Schedule.builder()
                         .dayOfWeek(dayOfWeek)
                         .address(address)
-                        .course(course)
+                        .course(cartService.getCart())
                         .user(userService.getUser())
                         .build();
                 schedules.add(schedule);
-            }
         }
         scheduleService.addSchedules(schedules);
     }

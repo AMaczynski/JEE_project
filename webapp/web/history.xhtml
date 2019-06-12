@@ -15,11 +15,15 @@
 <h:body>
 
     <h:form id="form">
+        <p:menubar>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
+        </p:menubar>
         <p:outputLabel for="popup" value="From:" />
         <p:datePicker id="popup" value="#{Order.dateFrom}" />
         <p:outputLabel for="popup2" value="To:" />
         <p:datePicker id="popup2" value="#{Order.dateTo}" />
         <p:commandButton value="Ajax Submit" id="ajax" update="form" action="#{Order.filterByDates()}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+
 
         <p:dataGrid var="order_var" value="#{Order.userOrders}" columns="3" layout="grid"
                     rows="12" paginator="true" id="orders"
@@ -30,44 +34,28 @@
                 Order history
             </f:facet>
 
-            <p:panel header="#{order_var.id}" style="text-align:center">
+            <p:panel header="#{order_var.date}" style="text-align:center">
                 <h:panelGrid columns="1" style="width:100%">
 
-                    <h:outputText value="#{order_var.date}" />
+                    <h:outputText value="#{order_var.address.city} #{order_var.address.street} #{order_var.address.buildingNumber}/#{order_var.address.apartmentNumber}" />
 
-                    <p:commandLink update=":form:carDetail" oncomplete="PF('orderDialog').show()" title="View Detail">
-                        <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
-                        <h:outputText value="details"/>
-                        <f:setPropertyActionListener value="#{order_var}" target="#{Order.selectedOrder}" />
-                    </p:commandLink>
+                    <p:dataTable var="orderc"
+                                 value="#{order_var.course}">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{orderc.name}"/>
+                        </p:column>
+                        <p:column headerText="Size">
+                            <h:outputText value="#{orderc.size}"/>
+                        </p:column>
+                        <p:column headerText="Prize">
+                            <h:outputText value="#{orderc.prize}"/>
+                        </p:column>
+                    </p:dataTable>
                 </h:panelGrid>
             </p:panel>
 
         </p:dataGrid>
 
-        <p:dialog header="Order Info" widgetVar="orderDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-            <p:outputPanel id="carDetail" style="text-align:center;">
-                <p:panelGrid  columns="2" rendered="#{not empty Order.selectedOrder}" columnClasses="label,value">
-
-                    <h:outputText value="Date" />
-                    <h:outputText value="#{Order.selectedOrder.date}" />
-
-                    <p:dataTable var="course_var" value="#{Order.selectedOrder.courses}">
-                        <p:column headerText="Name">
-                            <h:outputText value="#{course_var.name}" />
-                        </p:column>
-
-                        <p:column headerText="Size">
-                            <h:outputText value="#{course_var.size}" />
-                        </p:column>
-
-                        <p:column headerText="Price">
-                            <h:outputText value="#{course_var.prize}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:panelGrid>
-            </p:outputPanel>
-        </p:dialog>
     </h:form>
 </h:body>
 

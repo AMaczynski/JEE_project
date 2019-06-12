@@ -18,13 +18,11 @@ import java.util.List;
 public class OrderService extends BaseService implements IOrderService {
 
     @Override
-    public Order placeOrder(List<Order> orders) {
+    public Order placeOrder(Order order) {
         EntityManager em = getEntityManager();
-        for (Order order : orders) {
-            em.persist(order);
-            em.getTransaction().commit();
-        }
-        return orders.get(0);
+        em.persist(order);
+        em.getTransaction().commit();
+        return order;
     }
 
     @Override

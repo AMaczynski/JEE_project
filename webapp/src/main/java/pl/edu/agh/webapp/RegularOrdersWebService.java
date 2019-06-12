@@ -31,7 +31,6 @@ public class RegularOrdersWebService {
     }
 
     public void deleteSchedule() {
-        System.out.println(selectedSchedule.getCourse().getName() + ", " + selectedSchedule.getId());
         scheduleService.deleteSchedule(selectedSchedule.getId());
     }
 }

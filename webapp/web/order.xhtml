@@ -15,6 +15,9 @@
 <h:body>
 
     <h:form id="summary">
+        <p:menubar>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
+        </p:menubar>
         <p:growl id="messages"/>
         <p:dataTable id="singleDT"
                      selectionMode="single"
@@ -40,11 +43,6 @@
             <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Cart.deleteSelectedCourse()}"/>
         </p:contextMenu>
 
-        <p:commandLink id="back"
-                       action="menu"
-                       immediate="true">
-            <h:outputText value="Back to menu"/>
-        </p:commandLink>
         <p:commandLink id="login"
                        action="login"
                        immediate="true"

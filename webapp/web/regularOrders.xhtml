@@ -17,47 +17,37 @@
         <p:growl id="messages"/>
 
         <p:menubar>
-            <p:menuitem value="Order history" action="history" icon="pi pi-times"/>
-            <p:submenu label="Admin" icon="pi pi-cog">
-                <p:menuitem value="Add course" action="PF('addCourseWizard').show()" icon="pi pi-save" update="menu"/>
-                <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
-                <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
-            </p:submenu>
-
-            <f:facet name="options">
-                <p:commandButton type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home"/>
-                <p:commandButton type="button" value="Login" oncomplete="PF('sidebarLogin').show()"
-                                 rendered="#{!User.logged}" icon="pi pi-home"/>
-            </f:facet>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
         </p:menubar>
 
-        <p:dataTable var="order"
+        <p:dataTable var="schedule"
                      id="singleDT"
                      value="#{RegularOrder.schedules}"
                      selectionMode="single"
                      selection="#{RegularOrder.selectedSchedule}"
-                     rowKey="#{order.id}"
+                     rowKey="#{schedule.id}"
                      expandableRowGroups="false">
             <p:column headerText="Day of Week" groupRow="true">
-                <h:outputText value="#{order.dayOfWeek}"/>
+                <h:outputText value="#{schedule.dayOfWeek}"/>
             </p:column>
-            <p:column headerText="Name">
-                <h:outputText value="#{order.course.name}"/>
+            <p:column headerText="Order content">
+                <p:dataTable var="order"
+                             value="#{schedule.course}"
+                             rowKey="#{order.id}"
+                             expandableRowGroups="false">
+                    <p:column headerText="Name">
+                        <h:outputText value="#{order.name}"/>
+                    </p:column>
+                    <p:column headerText="Size">
+                        <h:outputText value="#{order.size}"/>
+                    </p:column>
+                    <p:column headerText="Prize">
+                        <h:outputText value="#{order.prize}"/>
+                    </p:column>
+                </p:dataTable>
             </p:column>
-            <p:column headerText="Size">
-                <h:outputText value="#{order.course.size}"/>
-            </p:column>
-            <p:column headerText="Prize">
-                <h:outputText value="#{order.course.prize}"/>
-            </p:column>
-            <p:column headerText="City">
-                <h:outputText value="#{order.address.city}"/>
-            </p:column>
-            <p:column headerText="Street">
-                <h:outputText value="#{order.address.street}"/>
-            </p:column>
-            <p:column headerText="Number">
-                <h:outputText value="#{order.address.buildingNumber}/#{order.address.apartmentNumber}"/>
+            <p:column headerText="Address ">
+                <h:outputText value="#{schedule.address.city} #{schedule.address.street} #{schedule.address.buildingNumber}/#{schedule.address.apartmentNumber}"/>
             </p:column>
         </p:dataTable>
 

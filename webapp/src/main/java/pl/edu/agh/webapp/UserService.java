@@ -21,5 +21,9 @@ public class UserService {
         return user != null;
     }
 
+    public boolean isAdmin() {
+        return user != null;
+    }
+
     public void logout() { user = null; }
 }
