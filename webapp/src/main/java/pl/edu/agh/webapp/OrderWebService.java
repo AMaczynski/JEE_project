@@ -71,6 +71,9 @@ public class OrderWebService {
 
 
     public String confirm() {
+        if (cartService.getCart().isEmpty()) {
+            return "empty cart";
+        }
         Address actualAddress = new Address();
         if (isAddressChanged()) {
             actualAddress = Address.builder()
