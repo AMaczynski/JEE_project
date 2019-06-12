@@ -21,8 +21,24 @@ public class UserService {
         return user != null;
     }
 
-    public boolean isAdmin() {
-        return user != null;
+    public boolean isManager() {
+        return  user != null && user.getRole() == Const.ROLE_MANAGER;
+    }
+
+    public boolean isCook() {
+        return user != null && user.getRole() == Const.ROLE_COOK;
+    }
+
+    public boolean isDriver() {
+        return user != null && user.getRole() == Const.ROLE_DRIVER;
+    }
+
+    public boolean isClient() {
+        return user != null && user.getRole() == Const.ROLE_CLIENT;
+    }
+
+    public boolean isDisplayMenu() {
+        return user != null && (isClient() || isManager());
     }
 
     public void logout() { user = null; }

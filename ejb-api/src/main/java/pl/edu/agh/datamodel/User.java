@@ -29,5 +29,7 @@ public class User implements Serializable {
 
     @OneToOne
     private Address address;
+
+    private int role = 0;
 }
 

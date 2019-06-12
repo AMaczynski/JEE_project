@@ -20,11 +20,11 @@
         </p:menubar>
         <p:growl id="messages"/>
         <p:dataTable id="singleDT"
+                     value="#{Cart.cart}"
                      selectionMode="single"
                      selection="#{Cart.selectedCourse}"
                      var="course_var"
-                     rowKey="#{course_var.id}"
-                     value="#{Cart.cart}">
+                     rowKey="#{course_var.id}">
             <p:column headerText="Name">
                 <h:outputText value="#{course_var.name}"/>
             </p:column>
@@ -34,9 +34,6 @@
             <p:column headerText="Prize">
                 <h:outputText value="#{course_var.prize}"/>
             </p:column>
-            <f:facet name="footer">
-                <p:menuitem value="Proceed" update="singleDT" icon="pi pi-times" action="#{Cart.add()}"/>
-            </f:facet>
         </p:dataTable>
 
         <p:contextMenu for="singleDT">

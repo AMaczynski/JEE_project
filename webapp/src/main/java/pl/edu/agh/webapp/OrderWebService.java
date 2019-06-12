@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static pl.edu.agh.webapp.Utils.statusToString;
+
 @ManagedBean(name = "Order")
 @Data
 @ViewScoped
@@ -90,6 +92,7 @@ public class OrderWebService {
         } else {
             addOneTimeOrder(actualAddress);
         }
+        cartService.setCart(new ArrayList<>());
         return "orderSuccess";
     }
 
@@ -111,6 +114,7 @@ public class OrderWebService {
                 .course(cartService.getCart())
                 .date(new Date())
                 .user(userService.getUser())
+                .status(0)
                 .build();
         orderService.placeOrder(order);
     }
@@ -127,5 +131,9 @@ public class OrderWebService {
                 schedules.add(schedule);
         }
         scheduleService.addSchedules(schedules);
+    }
+
+    public String status(Order order) {
+        return statusToString(order.getStatus());
     }
 }

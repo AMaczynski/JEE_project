@@ -15,12 +15,14 @@ public abstract class Order_ {
 	public static volatile ListAttribute<Order, Course> course;
 	public static volatile SingularAttribute<Order, Long> id;
 	public static volatile SingularAttribute<Order, User> user;
+	public static volatile SingularAttribute<Order, Integer> status;
 
 	public static final String DATE = "date";
 	public static final String ADDRESS = "address";
 	public static final String COURSE = "course";
 	public static final String ID = "id";
 	public static final String USER = "user";
+	public static final String STATUS = "status";
 
 }
 

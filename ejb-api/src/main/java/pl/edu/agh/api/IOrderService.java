@@ -17,5 +17,7 @@ public interface IOrderService {
 
     List<Order> getUserOrdersInDateRange(long userId, Date dateFrom, Date dateTo);
 
+    List<Order> getOrdersWithStatusRange(int statusFrom, int statusTo);
 
+    void proceedOrder(long id);
 }

@@ -22,7 +22,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Course> course;
 
     @Column
@@ -33,4 +33,6 @@ public class Order implements Serializable {
 
     @ManyToOne
     private Address address;
+
+    private int status = 0;
 }

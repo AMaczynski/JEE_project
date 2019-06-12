@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+
+<h:head>
+    <title>Your orders</title>
+    <h:outputStylesheet library="css" name="table-style.css"/>
+</h:head>
+
+
+<h:body>
+
+    <h:form id="form">
+        <p:menubar>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
+        </p:menubar>
+        <p:outputLabel for="popup" value="From:" />
+        <p:datePicker id="popup" value="#{Order.dateFrom}" />
+        <p:outputLabel for="popup2" value="To:" />
+        <p:datePicker id="popup2" value="#{Order.dateTo}" />
+        <p:commandButton value="Ajax Submit" id="ajax" update="form" action="#{Order.filterByDates()}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+
+
+        <p:dataGrid var="order_var" value="#{Order.userOrders}" columns="3" layout="grid"
+                    rows="12" paginator="true" id="orders"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    rowsPerPageTemplate="6,12,16">
+
+            <f:facet name="header">
+                Order history
+            </f:facet>
+
+            <p:panel header="#{order_var.date}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%">
+
+                    <h:outputText value="Status: #{Order.status(order_var)}" />
+
+                    <p:dataTable var="orderc"
+                                 value="#{order_var.course}">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{orderc.name}"/>
+                        </p:column>
+                        <p:column headerText="Size">
+                            <h:outputText value="#{orderc.size}"/>
+                        </p:column>
+                        <p:column headerText="Prize">
+                            <h:outputText value="#{orderc.prize}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:panel>
+
+        </p:dataGrid>
+
+    </h:form>
+</h:body>
+
+</html>
+

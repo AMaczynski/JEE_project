@@ -62,4 +62,24 @@ public class OrderService extends BaseService implements IOrderService {
         query.where(pred);
         return em.createQuery(query).getResultList();
     }
+
+    @Override
+    public List<Order> getOrdersWithStatusRange(int statusFrom, int statusTo) {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Order> query = builder.createQuery(Order.class);
+        Root<Order> root = query.from(Order.class);
+        Predicate pred = builder.between(root.get("status"), statusFrom, statusTo);
+        query.where(pred);
+        return em.createQuery(query).getResultList();
+    }
+
+    @Override
+    public void proceedOrder(long id) {
+        EntityManager em = getEntityManager();
+        Order order = em.find(Order.class, id);
+        order.setStatus(order.getStatus()+1);
+        em.persist(order);
+        em.getTransaction().commit();
+    }
 }

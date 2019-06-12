@@ -7,7 +7,7 @@
 >
 
 <h:head>
-    <title>Historia zamówień</title>
+    <title>Order management</title>
     <h:outputStylesheet library="css" name="table-style.css"/>
 </h:head>
 
@@ -18,14 +18,8 @@
         <p:menubar>
             <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
         </p:menubar>
-        <p:outputLabel for="popup" value="From:" />
-        <p:datePicker id="popup" value="#{Order.dateFrom}" />
-        <p:outputLabel for="popup2" value="To:" />
-        <p:datePicker id="popup2" value="#{Order.dateTo}" />
-        <p:commandButton value="Ajax Submit" id="ajax" update="form" action="#{Order.filterByDates()}" style="margin-right:20px;" styleClass="ui-priority-primary" />
 
-
-        <p:dataGrid var="order_var" value="#{Order.userOrders}" columns="3" layout="grid"
+        <p:dataGrid var="order_var" value="#{OrderManage.orders}" columns="3" layout="grid"
                     rows="12" paginator="true" id="orders"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                     rowsPerPageTemplate="6,12,16">
@@ -37,7 +31,7 @@
             <p:panel header="#{order_var.date}" style="text-align:center">
                 <h:panelGrid columns="1" style="width:100%">
 
-                    <h:outputText value="#{order_var.address.city} #{order_var.address.street} #{order_var.address.buildingNumber}/#{order_var.address.apartmentNumber}" />
+                    <h:outputText value="Status: #{Order.status(order_var)}" />
 
                     <p:dataTable var="orderc"
                                  value="#{order_var.course}">
@@ -51,6 +45,15 @@
                             <h:outputText value="#{orderc.prize}"/>
                         </p:column>
                     </p:dataTable>
+
+                    <p:commandButton id="remove"
+                                     action="#{OrderManage.proceed}"
+                                     update="form"
+                                     value="Mark as #{OrderManage.nextStatus(order_var)}">
+                        <f:setPropertyActionListener target="#{requestScope.order}"
+                                                     value="#{order_var.id}"/>
+                    </p:commandButton>
+
                 </h:panelGrid>
             </p:panel>
 
