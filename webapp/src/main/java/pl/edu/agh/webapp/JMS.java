@@ -1,42 +1,71 @@
 package pl.edu.agh.webapp;
 
-import lombok.Setter;
-import pl.edu.agh.api.IJMSSender;
+import pl.edu.agh.api.IScheduleService;
+import pl.edu.agh.datamodel.Course;
+import pl.edu.agh.datamodel.Schedule;
 
-import javax.annotation.Resource;
+import javax.ejb.ActivationConfigProperty;
 import javax.ejb.EJB;
+import javax.ejb.MessageDriven;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.jms.JMSContext;
-import javax.jms.Queue;
+import javax.faces.context.FacesContext;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+import java.util.List;
 
+@MessageDriven(mappedName = "java:jboss/exported/jms/queue/SOA", activationConfig = {
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty(propertyName = "destination", propertyValue = "java:jboss/exported/jms/queue/SOA")
+})
 @ManagedBean(name = "JMS")
 @ViewScoped
-public class JMS {
+public class JMS implements MessageListener {
 
-    @EJB(lookup = "java:global/core/JMSSender")
-    private IJMSSender jmsSender;
+    @EJB(lookup = "java:global/core/ScheduleService")
+    private IScheduleService scheduleService;
 
-    @Inject
-    private JMSContext context;
+    @ManagedProperty(value = "#{User}")
+    private UserService userService;
 
-    @Resource(mappedName = "java:jboss/exported/jms/queue/SOA")
-    private Queue queue;
-
-    @Setter
-    private String message;
-
-    public void sendMessage() {
-        jmsSender.sendMessage("Hello bitches", 1);
-    }
-
-    public String receiveMessage() {
-        String message = context.createConsumer(queue).receiveBody(String.class);
-        if (message == null)
-            message = "pusto w kolejce";
-        return message;
+    @Override
+    public void onMessage(Message inMessage) {
+        TextMessage msg = null;
+        boolean interestedUser = false;
+        Course deletedCourse = null;
+        try {
+            if (inMessage instanceof TextMessage) {
+                msg = (TextMessage) inMessage;
+                System.out.println(msg.getText());
+                long userId = userService.getUser().getId();
+                System.out.println(userId);
+                List<Schedule> schedules = scheduleService.getSchedulesByUser(2);
+                long courseId = Long.parseLong(msg.getText());
+                for (Schedule schedule : schedules) {
+                    List<Course> courses = schedule.getCourse();
+                    for (Course course : courses) {
+                        if (course.getId() == courseId) {
+                            interestedUser = true;
+                            deletedCourse = course;
+                            break;
+                        }
+                    }
+                }
+                if (interestedUser) {
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    context.addMessage(null, new FacesMessage("One of your schedules order has been deleted", deletedCourse.toString()));
+                    System.out.println(deletedCourse.toString());
+                }
+            } else {
+                System.out.println("Message of wrong type: " +
+                        inMessage.getClass().getName());
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }
-
 

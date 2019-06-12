@@ -45,7 +45,7 @@ public class CourseService extends BaseService implements ICourseService {
     public void deleteCourse(long id) {
         EntityManager em = getEntityManager();
         Course course = em.find(Course.class, id);
-        em.remove(course);
+        course.setArchived(true);
         em.getTransaction().commit();
     }
 

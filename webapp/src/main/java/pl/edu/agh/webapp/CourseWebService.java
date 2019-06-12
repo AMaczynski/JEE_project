@@ -3,14 +3,15 @@ package pl.edu.agh.webapp;
 import lombok.Data;
 import pl.edu.agh.api.ICategoryService;
 import pl.edu.agh.api.ICourseService;
+import pl.edu.agh.api.IJMSSender;
 import pl.edu.agh.datamodel.Category;
 import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import static java.util.Objects.nonNull;
@@ -25,6 +26,12 @@ public class CourseWebService {
 
     @EJB(lookup = "java:global/core/CategoryService")
     private ICategoryService categoryService;
+
+    @EJB(lookup = "java:global/core/JMSSender")
+    private IJMSSender jmsSender;
+
+    @ManagedProperty(value = "#{User}")
+    private UserService userService;
 
     private Course selectedCourse = Course.builder()
             .name("Name")
@@ -59,6 +66,8 @@ public class CourseWebService {
     }
 
     public void deleteCourse() {
+        System.out.println("id: " + userService.getUser().getId());
         courseService.deleteCourse(selectedCourse.getId());
+        jmsSender.sendMessage(String.valueOf(selectedCourse.getId()));
     }
 }

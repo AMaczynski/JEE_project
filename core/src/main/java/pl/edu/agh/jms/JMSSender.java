@@ -20,10 +20,10 @@ public class JMSSender implements IJMSSender {
     @Inject
     JMSContext context;
 
-    public void sendMessage(String message, long id) {
+    public void sendMessage(String message) {
         try {
             Message msg = context.createMessage();
-            context.createProducer().setProperty("course_id", id).send(queue, message);
+            context.createProducer().send(queue, message);
         } catch (Exception e) {
             e.printStackTrace();
         }
