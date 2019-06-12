@@ -55,6 +55,7 @@
                 </p:menuitem>
             </f:facet>
         </p:menubar>
+
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable var="course_var"
                      id="singleDT"
@@ -81,10 +82,10 @@
             <f:facet name="footer">
                 <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
                                  oncomplete="PF('addCourseWizard').show()"/>
-                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
-                                 value="Add new categories" oncomplete="PF('addCourseDialog').show()"/>
-                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search"
-                                 value="Edit categories" oncomplete="PF('addCourseDialog').show()"/>
+                <p:commandButton process="singleDT" update=":addCategory" icon="pi pi-search"
+                                 value="Add new categories" oncomplete="PF('addCategory').show()"/>
+                <p:commandButton process="singleDT" update=":editCategory" icon="pi pi-search"
+                                 value="Edit categories" oncomplete="PF('editCategory').show()"/>
             </f:facet>
         </p:dataTable>
 
@@ -129,12 +130,75 @@
         </p:outputPanel>
     </p:dialog>
 
+    <p:dialog header="Course Info" widgetVar="addCategory" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="addCategory" style="text-align:center;">
+            <h:form name="addCategoryForm">
+                <h:panelGrid columns="1">
+                    <h3>Category Name</h3>
+                    <p:inputText id="float-input" value="#{Category.newCategoryName}"/>
+                    <p:commandButton value="Submit" action="#{Category.addCategory()}"
+                                     oncomplete="PF('addCategory').hide();" style="margin: 20px;"/>
+                </h:panelGrid>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog header="Edit Categories" widgetVar="editCategory" modal="true" showEffect="fade" width="30%"
+              hideEffect="fade"
+              resizable="false">
+        <p:outputPanel id="editCategory" style="text-align:center;">
+            <h:form id="form">
+                <p:dataTable id="categories"
+                             var="category"
+                             value="#{Category.categories}"
+                             editable="true">
+
+                    <p:ajax event="rowEdit" listener="#{Category.onRowEdit}"/>
+
+                    <p:column headerText="Name">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{category.name}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="modelInput" value="#{category.name}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:35px">
+                        <p:rowEditor/>
+                    </p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="confirmDeleteCategory" oncomplete="PF('confirmDeleteCategory').show()"
+                                         value="Delete" title="Delete">
+                            <f:setPropertyActionListener value="#{category}" target="#{Category.selectedCategory}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+
+    <p:dialog widgetVar="confirmDeleteCategory" modal="true" showEffect="fade" resizable="false">
+        <p:outputLabel id="confirmDeleteCategory" style="text-align: center;">
+            <h:panelGrid columns="1">
+                <h3>Confirm deleteing category</h3>
+                <p:commandButton value="Confirm" action="#{Category.deleteCategory()}" update=":editCategory"
+                                 oncomplete="PF('confirmDeleteCategory').hide()"/>
+            </h:panelGrid>
+        </p:outputLabel>
+    </p:dialog>
+
     <p:dialog header="Course Info" widgetVar="orderDialog" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
-        <p:outputPanel id="orderDetail" style="text-align:center;">
+        <p:outputPanel id="orderDialog" style="text-align:center;">
 
         </p:outputPanel>
     </p:dialog>
+
 
     <p:dialog header="Add Course Wziard" widgetVar="addCourseWizard" modal="true" showEffect="fade" hideEffect="fade"
               resizable="false">
@@ -193,6 +257,8 @@
             </h:form>
         </p:outputPanel>
     </p:dialog>
+
+
     <p:sidebar widgetVar="sidebarLogin" position="right" baseZIndex="10000">
         <h1 style="font-weight:normal">Login</h1>
         <h:form id="formLogin">

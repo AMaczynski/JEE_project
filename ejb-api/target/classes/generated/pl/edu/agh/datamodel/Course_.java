@@ -9,6 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Course_ {
 
 	public static volatile SingularAttribute<Course, String> size;
+	public static volatile SingularAttribute<Course, Boolean> isArchived;
 	public static volatile SingularAttribute<Course, String> name;
 	public static volatile SingularAttribute<Course, Long> id;
 	public static volatile SingularAttribute<Course, Long> counter;
@@ -17,6 +18,7 @@ public abstract class Course_ {
 	public static volatile SingularAttribute<Course, Double> prize;
 
 	public static final String SIZE = "size";
+	public static final String IS_ARCHIVED = "isArchived";
 	public static final String NAME = "name";
 	public static final String ID = "id";
 	public static final String COUNTER = "counter";

@@ -9,13 +9,13 @@ import pl.edu.agh.datamodel.Course;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import static java.util.Objects.nonNull;
 
 @ManagedBean(name = "Course")
-@SessionScoped
+@ViewScoped
 @Data
 public class CourseWebService {
 

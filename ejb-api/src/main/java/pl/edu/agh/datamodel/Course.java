@@ -47,6 +47,9 @@ public class Course implements Serializable {
     @Column
     private Boolean isApproved;
 
+    @Column
+    private boolean isArchived;
+
 }
 
 

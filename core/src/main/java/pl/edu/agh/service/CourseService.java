@@ -54,6 +54,7 @@ public class CourseService extends BaseService implements ICourseService {
         EntityManager em = getEntityManager();
         Course course = em.find(Course.class, newCourse.getId());
         course.setName(newCourse.getName());
+        course.setArchived(newCourse.isArchived());
         course.setCategory(newCourse.getCategory());
         course.setPrize(newCourse.getPrize());
         course.setSize(newCourse.getSize());
@@ -83,7 +84,8 @@ public class CourseService extends BaseService implements ICourseService {
         CriteriaQuery<Course> query = builder.createQuery(Course.class);
         Root<Course> root = query.from(Course.class);
         Predicate predicate = builder.equal(root.get("isApproved"), true);
-        query.where(predicate);
+        Predicate notArchivedPredicate = builder.equal(root.get("isArchived"), false);
+        query.where(predicate, notArchivedPredicate);
         List<Course> courses = em.createQuery(query).getResultList();
         if (courses.isEmpty()) {
             return Collections.emptyList();

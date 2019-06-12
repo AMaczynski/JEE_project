@@ -1,9 +1,11 @@
 package pl.edu.agh.webapp;
 
 import lombok.Data;
+import org.primefaces.event.RowEditEvent;
 import pl.edu.agh.api.ICategoryService;
 import pl.edu.agh.datamodel.Category;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -22,6 +24,13 @@ public class CategoryWebService {
 
     private String newCategoryName;
     private Category newCategory;
+    private Category selectedCategory;
+    private List<Category> categories;
+
+    @PostConstruct
+    private void init() {
+        categories = categoryService.queryAllCategories();
+    }
 
     public String addCategory() {
         newCategory = new Category();
@@ -31,6 +40,15 @@ public class CategoryWebService {
             return "Success";
         }
         return "Failure";
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+        Category category = (Category) event.getObject();
+        categoryService.editCategory(category);
+    }
+
+    public void deleteCategory() {
+        categoryService.deleteCategory(selectedCategory.getId());
     }
 
     public List<String> getAllCategoriesNames() {
