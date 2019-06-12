@@ -17,27 +17,44 @@
         <p:growl id="messages"/>
 
         <p:menubar>
+            <p:menuitem type="button" icon="pi pi-home" rendered="#{Cart.cartSize > 0}">
+                <p:commandLink id="summary"
+                               action="#{Cart.order}"
+                               immediate="true">
+                    <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
+                </p:commandLink>
+            </p:menuitem>
             <p:menuitem value="Order history" action="history" icon="pi pi-times"/>
             <p:submenu label="Admin" icon="pi pi-cog">
-                <p:menuitem value="Add course" action="PF('addCourseWizard').show()" icon="pi pi-save" update="menu"/>
+                <p:menuitem icon="pi pi-home">
+                    <p:commandLink id="addCourse"
+                                   oncomplete="PF('addCourseWizard').show()"
+                                   immediate="true">
+                        <h:outputText value="Add course"/>
+                    </p:commandLink>
+                </p:menuitem>
                 <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
                 <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
             </p:submenu>
 
             <f:facet name="options">
-                <p:commandButton type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home"/>
-                <p:commandButton type="button" value="Login" oncomplete="PF('sidebarLogin').show()"
-                                 rendered="#{!User.logged}" icon="pi pi-home"/>
+                <p:menuitem type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home">
+                    <p:commandLink id="logout"
+                                   action="#{User.logout}"
+                                   immediate="true"
+                                    update="menu">
+                        <h:outputText value="Logout"/>
+                    </p:commandLink>
+                </p:menuitem>
+                <p:menuitem type="button" value="Login" rendered="#{!User.logged}" icon="pi pi-home">
+                    <p:commandLink id="showLogin"
+                                   oncomplete="PF('sidebarLogin').show()"
+                                   immediate="true">
+                        <h:outputText value="Login/Register"/>
+                    </p:commandLink>
+                </p:menuitem>
             </f:facet>
         </p:menubar>
-
-        <p:commandLink id="summary"
-                       action="#{Cart.order}"
-                       immediate="true"
-                       rendered="#{Cart.cartSize > 0}">
-            <h:outputText value="Summary (#{Cart.cartSize} courses)"/>
-            <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
-        </p:commandLink>
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable var="course_var"
                      id="singleDT"
@@ -177,7 +194,7 @@
         </p:outputPanel>
     </p:dialog>
     <p:sidebar widgetVar="sidebarLogin" position="right" baseZIndex="10000">
-        <h1 style="font-weight:normal">Right Sidebar</h1>
+        <h1 style="font-weight:normal">Login</h1>
         <h:form id="formLogin">
             <h:panelGrid columns="2">
                 <h:outputLabel id="userNameLabel" for="j_username" value="Nazwa użytkownika:"/>
@@ -185,8 +202,27 @@
                 <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
                 <h:inputSecret id="j_password" value="#{LoginRegisterService.inputPassword}"/>
                 <h:panelGroup>
-                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}"/>
-                    <p:commandButton value="Cancel" oncomplete="PF('sidebarLogin').hide()"/>
+                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}" update="menu"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:form>
+        <h1 style="font-weight:normal">Register</h1>
+        <h:form id="formRegister">
+            <h:panelGrid columns="2">
+                <h:outputLabel id="userNameLabell" for="j_username" value="Nazwa użytkownika:"/>
+                <h:inputText id="j_usernamee" value="#{LoginRegisterService.inputLogin}"/>
+                <h:outputLabel id="passwordLabell" for="j_password" value="Hasło:"/>
+                <h:inputSecret id="j_passwordd" value="#{LoginRegisterService.inputPassword}"/>
+                City
+                <h:inputText value="#{LoginRegisterService.address.city}"/>
+                Street
+                <h:inputText value="#{LoginRegisterService.address.street}"/>
+                Building number
+                <h:inputText value="#{LoginRegisterService.address.buildingNumber}"/>
+                Apartment number
+                <h:inputText value="#{LoginRegisterService.address.apartmentNumber}"/>
+                <h:panelGroup>
+                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}" update="menu"/>
                 </h:panelGroup>
             </h:panelGrid>
         </h:form>

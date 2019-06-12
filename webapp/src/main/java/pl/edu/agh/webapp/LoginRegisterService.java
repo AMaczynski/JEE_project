@@ -28,19 +28,13 @@ public class LoginRegisterService {
     @EJB(lookup = "java:global/core/AuthService")
     private IAuthService authService;
 
-    public String login() {
+    public void login() {
         User u = authService.authorizeUser(inputLogin, inputPassword);
-        if (u != null) {
+        if (u != null)
             userService.setUser(u);
-            System.out.println(u.getLogin());
-            return "menu";
-        }
-        return "login";
     }
 
-    public String register() {
-
+    public void register() {
         authService.addUser(inputLogin, inputPassword, address);
-        return "login";
     }
 }
