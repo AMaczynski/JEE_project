@@ -29,7 +29,7 @@ public class Schedule implements Serializable {
     @ManyToOne
     private Address address;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Course> course;
 
     @Column

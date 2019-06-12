@@ -2,6 +2,7 @@ package pl.edu.agh.datamodel;
 
 import java.time.DayOfWeek;
 import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -11,7 +12,7 @@ public abstract class Schedule_ {
 
 	public static volatile SingularAttribute<Schedule, Address> address;
 	public static volatile SingularAttribute<Schedule, DayOfWeek> dayOfWeek;
-	public static volatile SingularAttribute<Schedule, Course> course;
+	public static volatile ListAttribute<Schedule, Course> course;
 	public static volatile SingularAttribute<Schedule, Long> id;
 	public static volatile SingularAttribute<Schedule, User> user;
 
