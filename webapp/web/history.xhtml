@@ -15,6 +15,9 @@
 <h:body>
 
     <h:form id="form">
+        <p:menubar>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
+        </p:menubar>
         <p:outputLabel for="popup" value="From:" />
         <p:datePicker id="popup" value="#{Order.dateFrom}" />
         <p:outputLabel for="popup2" value="To:" />
@@ -52,7 +55,7 @@
                     <h:outputText value="Date" />
                     <h:outputText value="#{Order.selectedOrder.date}" />
 
-                    <p:dataTable var="course_var" value="#{Order.selectedOrder.courses}">
+                    <p:dataTable var="course_var" value="#{Order.selectedOrder.course}">
                         <p:column headerText="Name">
                             <h:outputText value="#{course_var.name}" />
                         </p:column>

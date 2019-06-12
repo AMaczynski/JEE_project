@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-    Order placeOrder(List<Order> orders);
+    Order placeOrder(Order order);
 
     void deleteOrder(long id);
 
