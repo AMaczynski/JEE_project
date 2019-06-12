@@ -30,7 +30,6 @@
             <p:column headerText="Day of Week" groupRow="true">
                 <h:outputText value="#{schedule.dayOfWeek}"/>
             </p:column>
-            <!--    To nie chce dzialac
             <p:column headerText="Order content">
                 <p:dataTable var="order"
                              value="#{schedule.course}"
@@ -46,15 +45,9 @@
                         <h:outputText value="#{order.prize}"/>
                     </p:column>
                 </p:dataTable>
-            </p:column>-->
-            <p:column headerText="City">
-                <h:outputText value="#{schedule.address.city}"/>
             </p:column>
-            <p:column headerText="Street">
-                <h:outputText value="#{schedule.address.street}"/>
-            </p:column>
-            <p:column headerText="Number">
-                <h:outputText value="#{schedule.address.buildingNumber}/#{schedule.address.apartmentNumber}"/>
+            <p:column headerText="Address ">
+                <h:outputText value="#{schedule.address.city} #{schedule.address.street} #{schedule.address.buildingNumber}/#{schedule.address.apartmentNumber}"/>
             </p:column>
         </p:dataTable>
 
@@ -63,55 +56,6 @@
         </p:contextMenu>
     </h:form>
 
-    <h:form id="zajebanezhistory">
-        <p:dataGrid var="schedule_var" value="#{RegularOrder.schedules}" columns="3" layout="grid"
-                    rows="12" paginator="true" id="schedules"
-                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    rowsPerPageTemplate="6,12,16">
-
-            <f:facet name="header">
-                Order history
-            </f:facet>
-
-            <p:panel header="#{schedule_var.dayOfWeek}" style="text-align:center">
-                <h:panelGrid columns="1" style="width:100%">
-
-                    <h:outputText value="#{schedule_var.address.city} #{schedule_var.address.street} #{schedule_var.address.buildingNumber}/#{schedule_var.address.apartmentNumber}" />
-
-                    <p:commandLink update=":zajebanezhistory:carDetail" oncomplete="PF('orderDialog').show()" title="View Detail">
-                        <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
-                        <h:outputText value="details"/>
-                        <f:setPropertyActionListener value="#{schedule_var}" target="#{RegularOrder.selectedSchedule}" />
-                    </p:commandLink>
-                </h:panelGrid>
-            </p:panel>
-
-        </p:dataGrid>
-
-        <p:dialog header="Order Info" widgetVar="orderDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-            <p:outputPanel id="carDetail" style="text-align:center;">
-                <p:panelGrid  columns="2" rendered="#{not empty RegularOrder.selectedSchedule}" columnClasses="label,value">
-
-                    <h:outputText value="Date" />
-                    <h:outputText value="#{RegularOrder.selectedSchedule.address.city}" />
-
-                    <p:dataTable var="course_var" value="#{RegularOrder.selectedSchedule.course}">
-                        <p:column headerText="Name">
-                            <h:outputText value="#{course_var.name}" />
-                        </p:column>
-
-                        <p:column headerText="Size">
-                            <h:outputText value="#{course_var.size}" />
-                        </p:column>
-
-                        <p:column headerText="Price">
-                            <h:outputText value="#{course_var.prize}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:panelGrid>
-            </p:outputPanel>
-        </p:dialog>
-    </h:form>
 
 </h:body>
 
