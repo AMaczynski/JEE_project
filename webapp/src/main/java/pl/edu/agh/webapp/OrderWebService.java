@@ -4,7 +4,6 @@ import lombok.Data;
 import pl.edu.agh.api.IOrderService;
 import pl.edu.agh.api.IScheduleService;
 import pl.edu.agh.datamodel.Address;
-import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Order;
 import pl.edu.agh.datamodel.Schedule;
 
@@ -14,10 +13,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import static pl.edu.agh.webapp.Utils.statusToString;
 
@@ -52,6 +54,8 @@ public class OrderWebService {
     private int orderMode = 0;
     private List<DayOfWeek> selectedDays = null;
     private List<DayOfWeek> dayOfWeeks = new ArrayList<>();
+
+    private Date time;
 
     @PostConstruct
     public void init() {
@@ -101,6 +105,7 @@ public class OrderWebService {
         }
         if (isScheduled()) {
             addScheduledOrder(actualAddress);
+            addOneTimeOrder(actualAddress);
         } else {
             addOneTimeOrder(actualAddress);
         }
@@ -133,10 +138,14 @@ public class OrderWebService {
     }
 
     private void addScheduledOrder(Address address) {
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String dateFormatted = formatter.format(time);
         List<Schedule> schedules = new ArrayList<>();
         for (DayOfWeek dayOfWeek : selectedDays) {
                 Schedule schedule = Schedule.builder()
                         .dayOfWeek(dayOfWeek)
+                        .time(dateFormatted)
                         .address(address)
                         .course(cartService.getCart())
                         .user(userService.getUser())
