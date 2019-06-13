@@ -38,7 +38,10 @@ public class Schedule implements Serializable {
     private Address address;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    List<Course> course;
+    private List<Course> course;
+
+    @Column
+    private String time;
 
     @Column
     private DayOfWeek dayOfWeek;

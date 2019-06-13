@@ -66,7 +66,9 @@
                                       filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                     <f:selectItems value="#{Order.dayOfWeeks}"/>
                 </p:selectCheckboxMenu>
+                <p:datePicker id="timeonly" value="#{Order.time}" timeOnly="true" pattern="HH:mm"/>
             </h:panelGrid>
+
             City
             <h:inputText value="#{Order.address.city}"/>
             Street

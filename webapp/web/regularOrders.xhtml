@@ -29,6 +29,9 @@
             <p:column headerText="Day of Week" groupRow="true">
                 <h:outputText value="#{schedule.dayOfWeek}"/>
             </p:column>
+            <p:column headerText="Time" groupRow="false">
+                <h:outputText value="#{schedule.time}"/>
+            </p:column>
             <p:column headerText="Order content">
                 <p:dataTable var="order"
                              value="#{schedule.course}"
