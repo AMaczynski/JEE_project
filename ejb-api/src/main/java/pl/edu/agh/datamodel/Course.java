@@ -33,7 +33,6 @@ public class Course implements Serializable {
     @Column(nullable = false)
     private double prize;
 
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

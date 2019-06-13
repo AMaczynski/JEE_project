@@ -40,8 +40,8 @@ public class JMS implements MessageListener {
             if (inMessage instanceof TextMessage) {
                 msg = (TextMessage) inMessage;
                 System.out.println(msg.getText());
-                long userId = userService.getUser().getId();
-                System.out.println(userId);
+//                long userId = userService.getUser().getId();
+//                System.out.println(userId);
                 List<Schedule> schedules = scheduleService.getSchedulesByUser(2);
                 long courseId = Long.parseLong(msg.getText());
                 for (Schedule schedule : schedules) {

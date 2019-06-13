@@ -3,7 +3,6 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
 <h:head>
@@ -52,7 +51,10 @@
         </p:dataTable>
 
         <p:contextMenu for="singleDT">
-            <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{RegularOrder.deleteSchedule()}"/>
+            <p:menuitem>
+                <p:commandButton value="Delete" update=":menu:singleDT" oncomplete="PF('singleDT').upadte()"
+                                 icon="pi pi-times" action="#{RegularOrder.deleteSchedule()}"/>
+            </p:menuitem>
         </p:contextMenu>
     </h:form>
 
