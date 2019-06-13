@@ -49,6 +49,9 @@ public class Course implements Serializable {
     @Column
     private boolean isArchived;
 
+    @Column
+    private int ordered = 0;
+
 }
 
 

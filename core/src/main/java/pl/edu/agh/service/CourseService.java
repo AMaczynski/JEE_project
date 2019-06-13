@@ -87,6 +87,7 @@ public class CourseService extends BaseService implements ICourseService {
         Predicate notArchivedPredicate = builder.equal(root.get("isArchived"), false);
         query.where(predicate, notArchivedPredicate);
         List<Course> courses = em.createQuery(query).getResultList();
+        em.flush();
         if (courses.isEmpty()) {
             return Collections.emptyList();
         }

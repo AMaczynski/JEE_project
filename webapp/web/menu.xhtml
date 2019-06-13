@@ -60,6 +60,26 @@
             </f:facet>
         </p:menubar>
 
+
+        <p:dataGrid var="top" value="#{Top.topCourses}" columns="3" layout="grid"
+                    rows="2" paginator="false" id="tops"
+                    rowsPerPageTemplate="6">
+
+            <f:facet name="header">
+                Top orders
+            </f:facet>
+
+            <p:panel header="#{top.name}" style="text-align:center">
+                <h:panelGrid columns="1" style="width:100%">
+                    <h:outputText value="Ordered #{top.ordered} times" />
+                </h:panelGrid>
+            </p:panel>
+
+        </p:dataGrid>
+
+
+
+
         <p:growl id="msgs" showDetail="true"/>
         <p:dataTable var="course_var"
                      id="singleDT"

@@ -32,6 +32,9 @@ public class OrderWebService {
     @ManagedProperty(value = "#{Cart}")
     private CartService cartService;
 
+    @ManagedProperty(value = "#{Top}")
+    private TopService topService;
+
     @EJB(lookup = "java:global/core/OrderService")
     private IOrderService orderService;
 
@@ -102,6 +105,7 @@ public class OrderWebService {
             addOneTimeOrder(actualAddress);
         }
         cartService.setCart(new ArrayList<>());
+        topService.createTop();
         return "orderSuccess";
     }
 

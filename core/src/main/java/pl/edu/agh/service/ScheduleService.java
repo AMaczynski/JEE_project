@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IScheduleService;
+import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Schedule;
 
 import javax.ejb.Remote;
@@ -52,4 +53,5 @@ public class ScheduleService extends BaseService implements IScheduleService {
         em.remove(schedule);
         em.getTransaction().commit();
     }
+
 }

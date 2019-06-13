@@ -23,6 +23,7 @@ public class OrderService extends BaseService implements IOrderService {
         EntityManager em = getEntityManager();
         em.persist(order);
         em.getTransaction().commit();
+        updateOrderCount(order.getCourse());
         return order;
     }
 
@@ -102,4 +103,20 @@ public class OrderService extends BaseService implements IOrderService {
         em.persist(order);
         em.getTransaction().commit();
     }
+
+    private void updateOrderCount(List<Course> courses) {
+        EntityManager em = getEntityManager();
+        for (Course c: courses) {
+            Course dbCourse = queryCourseById(c.getId());
+            dbCourse.setOrdered(dbCourse.getOrdered()+1);
+            em.persist(dbCourse);
+            em.getTransaction().commit();
+        }
+    }
+
+    public Course queryCourseById(long id) {
+        EntityManager em = getEntityManager();
+        return em.find(Course.class, id);
+    }
+
 }

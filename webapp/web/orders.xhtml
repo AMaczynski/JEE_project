@@ -53,6 +53,8 @@
                         </p:column>
                     </p:dataTable>
 
+                    <p:outputLabel value="#{order_var.address.city} #{order_var.address.street} #{order_var.address.buildingNumber}/#{order_var.address.apartmentNumber}"/>
+
                     <p:commandButton id="next"
                                      action="#{Order.proceed}"
                                      update="form"
