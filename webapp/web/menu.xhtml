@@ -26,8 +26,9 @@
             </p:menuitem>
             <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Your orders" action="orders" icon="pi pi-times" rendered="#{User.client}"/>
-            <p:menuitem value="Manage orders" action="orderManage" icon="pi pi-times" rendered="#{User.cook}"/>
-            <p:menuitem value="Manage deliveries" action="orderManage" icon="pi pi-times" rendered="#{User.driver}"/>
+            <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.cook}"/>
+            <p:menuitem value="Manage deliveries" action="orders" icon="pi pi-times" rendered="#{User.driver}"/>
+            <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.manager}"/>
             <p:submenu label="Admin" icon="pi pi-cog" rendered="#{User.manager}">
                 <p:menuitem icon="pi pi-home">
                     <p:commandLink id="addCourse"

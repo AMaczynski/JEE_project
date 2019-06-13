@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +43,8 @@ public class OrderWebService {
     private Date dateFrom;
     private Order selectedOrder;
 
-    private List<Order> userOrders;
+    private List<Order> orders;
+    private List<Order> loadedOrders;
 
     private int orderMode = 0;
     private List<DayOfWeek> selectedDays = null;
@@ -59,7 +61,14 @@ public class OrderWebService {
         dayOfWeeks.add(DayOfWeek.SUNDAY);
         if (userService.isLogged()) {
             address = userService.getUser().getAddress();
-            userOrders = orderService.getUserOrders(userService.getUser().getId());
+            if (userService.isClient())
+                orders = orderService.getUserOrders(userService.getUser().getId());
+            else if (userService.isCook())
+                orders = orderService.getOrdersWithStatusRange(Const.ORDER_PLACED, Const.ORDER_PREPARING);
+            else if (userService.isDriver())
+                orders = orderService.getOrdersWithStatusRange(Const.ORDER_PREPARED, Const.ORDER_DELIVERING);
+            else if (userService.isManager())
+                orders = orderService.getAllOrders();
         }
     }
 
@@ -97,7 +106,7 @@ public class OrderWebService {
     }
 
     public void filterByDates() {
-        userOrders = orderService.getUserOrdersInDateRange(userService.getUser().getId(), dateFrom, dateTo);
+        orders = orderService.getUserOrdersInDateRange(userService.getUser().getId(), dateFrom, dateTo);
     }
 
     private boolean isAddressChanged() {
@@ -135,5 +144,44 @@ public class OrderWebService {
 
     public String status(Order order) {
         return statusToString(order.getStatus());
+    }
+
+
+    public String nextStatus(Order order) {
+        return statusToString(order.getStatus()+1);
+    }
+
+    public void proceed() {
+        long id = (long) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("order");
+        Order orderToRemove = null;
+        for (Order o : orders) {
+            if (o.getId() == id) {
+                o.setStatus(o.getStatus() + 1);
+                if ((o.getStatus() == Const.ORDER_PREPARED && userService.isCook()) || (o.getStatus() == Const.ORDER_DELIVERED && userService.isDriver()))
+                    orderToRemove = o;
+                break;
+            }
+        }
+        orders.remove(orderToRemove);
+        orderService.proceedOrder(id);
+    }
+
+    public void cancel() {
+        long id = (long) FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("order");
+        for (Order o : orders) {
+            if (o.getId() == id) {
+                o.setStatus(Const.ORDER_CANCELED);
+                break;
+            }
+        }
+        orderService.cancelOrder(id);
+    }
+
+    public boolean isDisplayProceed() {
+        return userService.isCook() || userService.isDriver();
+    }
+
+    public boolean shouldDisplayCancel(Order o) {
+        return o.getStatus() == Const.ORDER_PLACED && (userService.isManager() || userService.isClient());
     }
 }

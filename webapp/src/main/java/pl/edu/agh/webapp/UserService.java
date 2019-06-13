@@ -37,9 +37,5 @@ public class UserService {
         return user != null && user.getRole() == Const.ROLE_CLIENT;
     }
 
-    public boolean isDisplayMenu() {
-        return user != null && (isClient() || isManager());
-    }
-
     public void logout() { user = null; }
 }
