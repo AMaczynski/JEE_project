@@ -22,4 +22,5 @@ public interface ICourseService {
 
     List<Course> queryCourseByCategory(long categoryId);
 
+    List<Course> getTopCourses(int limit);
 }

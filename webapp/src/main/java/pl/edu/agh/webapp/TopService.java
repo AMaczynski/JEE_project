@@ -21,7 +21,6 @@ public class TopService {
     @EJB(lookup = "java:global/core/CourseService")
     private ICourseService courseService;
 
-    private List<Course> courses = new ArrayList<>();
     private List<Course> topCourses;
 
     @PostConstruct
@@ -30,18 +29,6 @@ public class TopService {
     }
 
     public void createTop() {
-        courses.clear();
-        courses = courseService.queryAllApprovedCourses();
-        Collections.sort(courses, (o1, o2) -> {
-            int a = o1.getOrdered();
-            int b = o2.getOrdered();
-            return Integer.compare(a, b);
-        });
-        topCourses = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            int index = courses.size()-1-i;
-            topCourses.add(courses.get(index));
-            System.out.println(courses.get(index).getName() + ":" + courses.get(index).getOrdered());
-        }
+        topCourses = courseService.getTopCourses(3);
     }
 }
