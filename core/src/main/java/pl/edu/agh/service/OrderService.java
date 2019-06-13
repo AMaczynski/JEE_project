@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IOrderService;
+import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Order;
 
 import javax.ejb.Remote;
@@ -79,6 +80,25 @@ public class OrderService extends BaseService implements IOrderService {
         EntityManager em = getEntityManager();
         Order order = em.find(Order.class, id);
         order.setStatus(order.getStatus()+1);
+        em.persist(order);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Order> query = builder.createQuery(Order.class);
+        Root<Order> root = query.from(Order.class);
+        CriteriaQuery<Order> all = query.select(root);
+        return em.createQuery(all).getResultList();
+    }
+
+    @Override
+    public void cancelOrder(long id) {
+        EntityManager em = getEntityManager();
+        Order order = em.find(Order.class, id);
+        order.setStatus(-1);
         em.persist(order);
         em.getTransaction().commit();
     }

@@ -11,6 +11,7 @@ public class Const {
     public static final int ORDER_PREPARED = 2;
     public static final int ORDER_DELIVERING = 3;
     public static final int ORDER_DELIVERED = 4;
+    public static final int ORDER_CANCELED = -1;
 
 
 }

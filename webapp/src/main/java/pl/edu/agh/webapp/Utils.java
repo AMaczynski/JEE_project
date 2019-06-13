@@ -18,6 +18,9 @@ public class Utils {
             case Const.ORDER_DELIVERED:
                 return "Delivered";
 
+            case Const.ORDER_CANCELED:
+                return "Canceled";
+
             default:
                 return "";
         }

@@ -13,6 +13,8 @@ public interface IOrderService {
 
     Order editOrder(Order order);
 
+    List<Order> getAllOrders();
+
     List<Order> getUserOrders(long userId);
 
     List<Order> getUserOrdersInDateRange(long userId, Date dateFrom, Date dateTo);
@@ -20,4 +22,6 @@ public interface IOrderService {
     List<Order> getOrdersWithStatusRange(int statusFrom, int statusTo);
 
     void proceedOrder(long id);
+
+    void cancelOrder(long id);
 }

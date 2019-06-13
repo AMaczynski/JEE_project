@@ -18,14 +18,15 @@
         <p:menubar>
             <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
         </p:menubar>
+        <p:panel rendered="#{User.client}">
         <p:outputLabel for="popup" value="From:" />
         <p:datePicker id="popup" value="#{Order.dateFrom}" />
         <p:outputLabel for="popup2" value="To:" />
         <p:datePicker id="popup2" value="#{Order.dateTo}" />
-        <p:commandButton value="Ajax Submit" id="ajax" update="form" action="#{Order.filterByDates()}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+        <p:commandButton value="Filter" id="ajax" update="form" action="#{Order.filterByDates()}" style="margin-right:20px;" styleClass="ui-priority-primary" />
+        </p:panel>
 
-
-        <p:dataGrid var="order_var" value="#{Order.userOrders}" columns="3" layout="grid"
+        <p:dataGrid var="order_var" value="#{Order.orders}" columns="3" layout="grid"
                     rows="12" paginator="true" id="orders"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                     rowsPerPageTemplate="6,12,16">
@@ -51,6 +52,24 @@
                             <h:outputText value="#{orderc.prize}"/>
                         </p:column>
                     </p:dataTable>
+
+                    <p:commandButton id="next"
+                                     action="#{Order.proceed}"
+                                     update="form"
+                                     value="Mark as #{Order.nextStatus(order_var)}"
+                                        rendered="#{Order.displayProceed}">
+                        <f:setPropertyActionListener target="#{requestScope.order}"
+                                                     value="#{order_var.id}"/>
+                    </p:commandButton>
+
+                    <p:commandButton id="remove"
+                                     action="#{Order.cancel}"
+                                     update="form"
+                                     rendered="#{Order.shouldDisplayCancel(order_var)}"
+                                     value="Cancel order">
+                        <f:setPropertyActionListener target="#{requestScope.order}"
+                                                     value="#{order_var.id}"/>
+                    </p:commandButton>
                 </h:panelGrid>
             </p:panel>
 
