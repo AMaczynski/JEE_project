@@ -69,6 +69,23 @@
                 <p:datePicker id="timeonly" value="#{Order.time}" timeOnly="true" pattern="HH:mm"/>
             </h:panelGrid>
 
+            <!--<p:selectBooleanCheckbox value="#{Order.noDelivery}" itemLabel="Personal collection">
+                <p:ajax update="form:panelgrid"/>
+            </p:selectBooleanCheckbox>
+
+            <h:panelGrid id="pAddress" rendered="#{!Order.noDelivery}">
+                City
+                <p:inputText value="#{Order.address.city}"/>
+                Street
+                <p:inputText value="#{Order.address.street}"/>
+                Building number
+                <p:inputText value="#{Order.address.buildingNumber}"/>
+                Apartment number
+                <p:inputText value="#{Order.address.apartmentNumber}"/>
+            </h:panelGrid>
+            -->
+
+<!--            zamiast tego -->
             City
             <h:inputText value="#{Order.address.city}"/>
             Street

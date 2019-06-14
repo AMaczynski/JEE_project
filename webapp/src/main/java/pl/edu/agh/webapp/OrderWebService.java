@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static pl.edu.agh.webapp.Utils.addressToString;
 import static pl.edu.agh.webapp.Utils.statusToString;
 
 @ManagedBean(name = "Order")
@@ -47,6 +48,8 @@ public class OrderWebService {
     private Date dateTo;
     private Date dateFrom;
     private Order selectedOrder;
+
+    private boolean noDelivery;
 
     private List<Order> orders;
     private List<Order> loadedOrders;
@@ -92,16 +95,20 @@ public class OrderWebService {
         if (cartService.getCart().isEmpty()) {
             return "empty cart";
         }
-        Address actualAddress = new Address();
-        if (isAddressChanged()) {
-            actualAddress = Address.builder()
-                    .apartmentNumber(address.getApartmentNumber())
-                    .buildingNumber(address.getBuildingNumber())
-                    .city(address.getCity())
-                    .street(address.getStreet())
-                    .build();
-        } else {
-            actualAddress = userService.getUser().getAddress();
+        Address actualAddress;
+        if (noDelivery)
+            actualAddress = null;
+        else {
+            if (isAddressChanged()) {
+                actualAddress = Address.builder()
+                        .apartmentNumber(address.getApartmentNumber())
+                        .buildingNumber(address.getBuildingNumber())
+                        .city(address.getCity())
+                        .street(address.getStreet())
+                        .build();
+            } else {
+                actualAddress = userService.getUser().getAddress();
+            }
         }
         if (isScheduled()) {
             addScheduledOrder(actualAddress);
@@ -157,6 +164,10 @@ public class OrderWebService {
 
     public String status(Order order) {
         return statusToString(order.getStatus());
+    }
+
+    public String addressStr(Order order) {
+        return addressToString(order.getAddress());
     }
 
 

@@ -49,7 +49,7 @@
                 </p:dataTable>
             </p:column>
             <p:column headerText="Address ">
-                <h:outputText value="#{schedule.address.city} #{schedule.address.street} #{schedule.address.buildingNumber}/#{schedule.address.apartmentNumber}"/>
+                <h:outputText value="#{Order.addressStr(order)}"/>
             </p:column>
         </p:dataTable>
 

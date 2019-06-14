@@ -30,15 +30,24 @@
             <p:menuitem value="Manage deliveries" action="orders" icon="pi pi-times" rendered="#{User.driver}"/>
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.manager}"/>
             <p:submenu label="Admin" icon="pi pi-cog" rendered="#{User.manager}">
-                <p:menuitem icon="pi pi-home">
+                <p:menuitem value="Add course">
                     <p:commandLink id="addCourse"
                                    oncomplete="PF('addCourseWizard').show()"
                                    immediate="true">
-                        <h:outputText value="Add course"/>
                     </p:commandLink>
                 </p:menuitem>
-                <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
-                <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
+                <p:menuitem value="Add category">
+                    <p:commandLink id="addCategoryc"
+                                   oncomplete="PF('addCategory').show()"
+                                   immediate="true">
+                    </p:commandLink>
+                </p:menuitem>
+                <p:menuitem value="Edit categories">
+                    <p:commandLink id="editCategoryc"
+                                   oncomplete="PF('editCategory').show()"
+                                   immediate="true">
+                    </p:commandLink>
+                </p:menuitem>
             </p:submenu>
 
             <f:facet name="options">
@@ -46,15 +55,15 @@
                     <p:commandLink id="logout"
                                    action="#{User.logout}"
                                    immediate="true"
-                                    update="menu">
-                        <h:outputText value="Logout"/>
+                                   update="menu">
+                        <p:outputLabel value="Logout"/>
                     </p:commandLink>
                 </p:menuitem>
                 <p:menuitem type="button" value="Login" rendered="#{!User.logged}" icon="pi pi-home">
                     <p:commandLink id="showLogin"
                                    oncomplete="PF('sidebarLogin').show()"
                                    immediate="true">
-                        <h:outputText value="Login/Register"/>
+                        <p:outputLabel value="Login/Register"/>
                     </p:commandLink>
                 </p:menuitem>
             </f:facet>
@@ -103,14 +112,6 @@
             <p:column headerText="Prize">
                 <h:outputText value="#{course_var.prize}"/>
             </p:column>
-            <f:facet name="footer">
-                <p:commandButton process="singleDT" update=":addCourseWizard" icon="pi pi-search" value="Add new course"
-                                 oncomplete="PF('addCourseWizard').show()"/>
-                <p:commandButton process="singleDT" update=":addCategory" icon="pi pi-search"
-                                 value="Add new categories" oncomplete="PF('addCategory').show()"/>
-                <p:commandButton process="singleDT" update=":editCategory" icon="pi pi-search"
-                                 value="Edit categories" oncomplete="PF('editCategory').show()"/>
-            </f:facet>
         </p:dataTable>
 
         <p:contextMenu for="singleDT">
@@ -290,33 +291,29 @@
         <h1 style="font-weight:normal">Login</h1>
         <h:form id="formLogin">
             <h:panelGrid columns="2">
-                <h:outputLabel id="userNameLabel" for="j_username" value="Nazwa użytkownika:"/>
-                <h:inputText id="j_username" value="#{LoginRegisterService.inputLogin}"/>
-                <h:outputLabel id="passwordLabel" for="j_password" value="Hasło:"/>
-                <h:inputSecret id="j_password" value="#{LoginRegisterService.inputPassword}"/>
-                <h:panelGroup>
-                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}" update="menu"/>
-                </h:panelGroup>
+                <p:outputLabel id="userNameLabel" for="j_usernam" value="Username:"/>
+                <p:inputText id="j_usernam" value="#{LoginRegisterService.inputLogin}" />
+                <p:outputLabel id="passwordLabel" for="j_passwor" value="Password:"/>
+                <p:password id="j_passwor" value="#{LoginRegisterService.inputPassword}" />
+                <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.login}"/>
             </h:panelGrid>
         </h:form>
         <h1 style="font-weight:normal">Register</h1>
         <h:form id="formRegister">
             <h:panelGrid columns="2">
-                <h:outputLabel id="userNameLabell" for="j_username" value="Nazwa użytkownika:"/>
-                <h:inputText id="j_usernamee" value="#{LoginRegisterService.inputLogin}"/>
-                <h:outputLabel id="passwordLabell" for="j_password" value="Hasło:"/>
-                <h:inputSecret id="j_passwordd" value="#{LoginRegisterService.inputPassword}"/>
+                <p:outputLabel id="userNameLabell" for="j_username" value="Username:"/>
+                <p:inputText id="j_username" value="#{LoginRegisterService.inputLogin}"/>
+                <p:outputLabel id="passwordLabell" for="j_password" value="Password:"/>
+                <p:password id="j_password" value="#{LoginRegisterService.inputPassword}" feedback="true" inline="true" />
                 City
-                <h:inputText value="#{LoginRegisterService.address.city}"/>
+                <p:inputText value="#{LoginRegisterService.address.city}"/>
                 Street
-                <h:inputText value="#{LoginRegisterService.address.street}"/>
+                <p:inputText value="#{LoginRegisterService.address.street}"/>
                 Building number
-                <h:inputText value="#{LoginRegisterService.address.buildingNumber}"/>
+                <p:inputText value="#{LoginRegisterService.address.buildingNumber}"/>
                 Apartment number
-                <h:inputText value="#{LoginRegisterService.address.apartmentNumber}"/>
-                <h:panelGroup>
-                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}" update="menu"/>
-                </h:panelGroup>
+                <p:inputText value="#{LoginRegisterService.address.apartmentNumber}"/>
+                <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}"/>
             </h:panelGrid>
         </h:form>
     </p:sidebar>

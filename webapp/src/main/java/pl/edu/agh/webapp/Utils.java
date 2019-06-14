@@ -1,5 +1,7 @@
 package pl.edu.agh.webapp;
 
+import pl.edu.agh.datamodel.Address;
+
 public class Utils {
     public static String statusToString(int status) {
         switch(status) {
@@ -23,6 +25,14 @@ public class Utils {
 
             default:
                 return "";
+        }
+    }
+
+    public static String addressToString(Address address) {
+        if (address == null)
+            return "Odbior osobisty";
+        else {
+            return String.format("%s %s %d/%d",address.getCity(), address.getStreet(), address.getBuildingNumber(), address.getApartmentNumber());
         }
     }
 }
