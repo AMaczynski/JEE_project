@@ -49,4 +49,8 @@ public class MenuWebService {
     public String onFlowProcess(FlowEvent event) {
         return event.getNewStep();
     }
+
+    public void showMessage(String message) {
+        System.out.println("message: " + message);
+    }
 }

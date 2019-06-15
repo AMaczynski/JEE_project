@@ -1,9 +1,11 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.ICourseService;
+import pl.edu.agh.api.IJMSSender;
 import pl.edu.agh.datamodel.Category;
 import pl.edu.agh.datamodel.Course;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,6 +24,9 @@ import java.util.stream.Collectors;
 @Stateless
 @Remote(ICourseService.class)
 public class CourseService extends BaseService implements ICourseService {
+
+    @EJB(lookup = "java:global/core/JMSSender")
+    private IJMSSender jmsSender;
 
     @Override
     public Course addCourse(Course course) {
@@ -50,6 +55,7 @@ public class CourseService extends BaseService implements ICourseService {
         Course course = em.find(Course.class, id);
         course.setArchived(true);
         em.getTransaction().commit();
+        jmsSender.sendMessage(String.valueOf(id));
     }
 
     @Override

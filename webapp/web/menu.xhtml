@@ -20,6 +20,7 @@
             <p:menuitem value="Place order (#{Cart.cartSize} courses)" action="order" icon="pi pi-times"
                         rendered="#{Cart.cartSize > 0}"/>
 
+            <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times"/>
             <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Your orders" action="orders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Month Summary" action="monthSummary" icon="pi pi-times" rendered="#{User.client}"/>
