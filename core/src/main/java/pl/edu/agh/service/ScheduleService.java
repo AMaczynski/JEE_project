@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IScheduleService;
+import pl.edu.agh.dao.ScheduleDao;
 import pl.edu.agh.datamodel.Schedule;
 
 import javax.ejb.Remote;
@@ -15,42 +16,48 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pl.edu.agh.service.Utils.*;
+
 @Stateless
 @Remote(IScheduleService.class)
 public class ScheduleService extends BaseService implements IScheduleService {
 
+    // OK
     @Override
     public void addSchedules(List<Schedule> scheduleList) {
         EntityManager em = getEntityManager();
         for (Schedule schedule : scheduleList) {
-            em.persist(schedule.getAddress() );
-            em.persist(schedule);
+            em.persist(dtoToDao(schedule.getAddress()) );
+            em.persist(dtoToDao(schedule));
             em.getTransaction().commit();
         }
     }
 
+    // OK
     @Override
     public List<Schedule> getSchedulesByUser(long userId) {
         EntityManager em = getEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Schedule> query = builder.createQuery(Schedule.class);
+        CriteriaQuery<ScheduleDao> query = builder.createQuery(ScheduleDao.class);
         Root<Schedule> root = query.from(Schedule.class);
         Predicate predicate = builder.equal(root.get("user"), userId);
         query.where(predicate);
-        List<Schedule> schedules = em.createQuery(query).getResultList();
+        List<ScheduleDao> schedules = em.createQuery(query).getResultList();
         if (schedules.isEmpty()) {
             return Collections.emptyList();
         }
-        return schedules.stream()
+        List<Schedule> daoSchedulesToDto = daoSchedulesToDto(schedules);
+        return daoSchedulesToDto.stream()
                 .sorted(Comparator.comparing(e -> e.getDayOfWeek().toString()))
                 .collect(Collectors.toList());
     }
 
+    // OK
     @Override
     public void deleteSchedule(long scheduleId) {
         EntityManager em = getEntityManager();
-        Schedule schedule = em.find(Schedule.class, scheduleId);
-        em.remove(schedule);
+        ScheduleDao scheduleDao = em.find(ScheduleDao.class, scheduleId);
+        em.remove(scheduleDao);
         em.getTransaction().commit();
     }
 

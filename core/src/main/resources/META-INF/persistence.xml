@@ -2,14 +2,12 @@
     <persistence-unit name="JPA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:/SoaMySqlDS</jta-data-source>
-        <class>pl.edu.agh.datamodel.Client</class>
-        <class>pl.edu.agh.datamodel.Address</class>
-        <class>pl.edu.agh.datamodel.Schedule</class>
-        <class>pl.edu.agh.datamodel.Role</class>
-        <class>pl.edu.agh.datamodel.Course</class>
-        <class>pl.edu.agh.datamodel.Category</class>
-        <class>pl.edu.agh.datamodel.User</class>
-        <class>pl.edu.agh.datamodel.Order</class>
+        <class>pl.edu.agh.dao.AddressDao</class>
+        <class>pl.edu.agh.dao.CategoryDao</class>
+        <class>pl.edu.agh.dao.CourseDao</class>
+        <class>pl.edu.agh.dao.OrderDao</class>
+        <class>pl.edu.agh.dao.ScheduleDao</class>
+        <class>pl.edu.agh.dao.UserDao</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
