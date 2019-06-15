@@ -1,5 +1,6 @@
 package pl.edu.agh.api;
 
+import pl.edu.agh.datamodel.Address;
 import pl.edu.agh.datamodel.Order;
 
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface IOrderService {
 
-    Order placeOrder(Order order);
+    Order placeOrder(Order order, Address address);
 
     void deleteOrder(long id);
 

@@ -39,6 +39,13 @@
                 </p:menuitem>
                 <p:menuitem value="Add category?" icon="pi pi-refresh" update="menu"/>
                 <p:menuitem value="Edit category?" icon="pi pi-refresh" update="menu"/>
+                <p:menuitem icon="pi pi-refresh">
+                    <p:commandLink id="approveCourses"
+                                   oncomplete="PF('approveDialog').show()"
+                                   immediate="true">
+                        <h:outputText value="Approve courses"/>
+                    </p:commandLink>
+                </p:menuitem>
             </p:submenu>
 
             <f:facet name="options">
@@ -46,7 +53,7 @@
                     <p:commandLink id="logout"
                                    action="#{User.logout}"
                                    immediate="true"
-                                    update="menu">
+                                   update="menu">
                         <h:outputText value="Logout"/>
                     </p:commandLink>
                 </p:menuitem>
@@ -94,9 +101,12 @@
         </p:dataTable>
 
         <p:contextMenu for="singleDT">
-            <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()" rendered="#{User.manager}"/>
-            <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}" rendered="#{User.manager}"/>
-            <p:menuitem value="Order" update="menu" icon="pi pi-times" action="#{Cart.add()}" rendered="#{User.client}"/>
+            <p:menuitem value="Edit" update="courseDetail" icon="pi pi-search" oncomplete="PF('courseDialog').show()"
+                        rendered="#{User.manager}"/>
+            <p:menuitem value="Delete" update="singleDT" icon="pi pi-times" action="#{Course.deleteCourse()}"
+                        rendered="#{User.manager}"/>
+            <p:menuitem value="Order" update="menu" icon="pi pi-times" action="#{Cart.add()}"
+                        rendered="#{User.user}"/>
             <p:menuitem value="Login to order" icon="pi pi-times"
                         oncomplete="PF('sidebarLogin').show()"
                         immediate="true" rendered="#{!User.logged}"/>
@@ -265,6 +275,44 @@
         </p:outputPanel>
     </p:dialog>
 
+    <p:dialog header="Approve Courses" widgetVar="approveDialog" modal="true" showEffect="fade" hideEffect="fade"
+              resizable="false">
+        <p:outputLabel id="approveDialog" style="text-align:center;">
+            <h:form>
+
+
+                <p:dataTable var="course_var1"
+                             id="aprovCourses"
+                             value="#{Menu.courses}"
+                             selectionMode="single"
+                             selection="#{Menu.selectedCourse}"
+                             rowKey="#{course_var1.id}">
+                    <p:column headerText="Category">
+                        <h:outputText value="#{course_var1.category.name}"/>
+                    </p:column>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{course_var1.name}"/>
+                    </p:column>
+                    <p:column headerText="Size">
+                        <h:outputText value="#{course_var1.size}"/>
+                    </p:column>
+                    <p:column headerText="Prize">
+                        <h:outputText value="#{course_var1.prize}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton process="aprovCourses" value="Confirm" update="menu"
+                                         oncomplete="PF('approveDialog').hide()"/>
+                    </f:facet>
+                </p:dataTable>
+                <p:contextMenu for="aprovCourses">
+                    <p:menuitem value="Approve" update="aprovCourses" icon="pi pi-times"
+                                action="#{Menu.approveCourse()}"
+                                rendered="#{User.manager}"/>
+                </p:contextMenu>
+            </h:form>
+        </p:outputLabel>
+    </p:dialog>
+
 
     <p:sidebar widgetVar="sidebarLogin" position="right" baseZIndex="10000">
         <h1 style="font-weight:normal">Login</h1>
@@ -295,7 +343,8 @@
                 Apartment number
                 <h:inputText value="#{LoginRegisterService.address.apartmentNumber}"/>
                 <h:panelGroup>
-                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}" update="menu"/>
+                    <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}"
+                                     update="menu"/>
                 </h:panelGroup>
             </h:panelGrid>
         </h:form>

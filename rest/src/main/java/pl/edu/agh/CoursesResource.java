@@ -21,11 +21,6 @@ public class CoursesResource {
     private ICourseService courseService;
 
     @GET
-    public List<Course> helloWorld() {
-        return courseService.queryAllApprovedCourses();
-    }
-
-    @GET
     @Path("/category/{categoryId}")
     public List<Course> queryAllCoursesByCategoryName(@PathParam("categoryId") long categoryId) {
         return courseService.queryCourseByCategory(categoryId);

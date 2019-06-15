@@ -23,6 +23,7 @@ public class ScheduleService extends BaseService implements IScheduleService {
     public void addSchedules(List<Schedule> scheduleList) {
         EntityManager em = getEntityManager();
         for (Schedule schedule : scheduleList) {
+            em.persist(schedule.getAddress() );
             em.persist(schedule);
             em.getTransaction().commit();
         }

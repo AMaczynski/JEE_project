@@ -68,22 +68,12 @@ public class CourseService extends BaseService implements ICourseService {
     }
 
     @Override
-    public List<Course> queryAllCourses() {
+    public List<Course> queryCourses(boolean approved) {
         EntityManager em = getEntityManager();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Course> query = builder.createQuery(Course.class);
         Root<Course> root = query.from(Course.class);
-        CriteriaQuery<Course> all = query.select(root);
-        return em.createQuery(all).getResultList();
-    }
-
-    @Override
-    public List<Course> queryAllApprovedCourses() {
-        EntityManager em = getEntityManager();
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Course> query = builder.createQuery(Course.class);
-        Root<Course> root = query.from(Course.class);
-        Predicate predicate = builder.equal(root.get("isApproved"), true);
+        Predicate predicate = builder.equal(root.get("isApproved"), approved);
         Predicate notArchivedPredicate = builder.equal(root.get("isArchived"), false);
         query.where(predicate, notArchivedPredicate);
         List<Course> courses = em.createQuery(query).getResultList();
@@ -104,4 +94,14 @@ public class CourseService extends BaseService implements ICourseService {
         query.where(predicate);
         return em.createQuery(query).getResultList();
     }
+
+    @Override
+    public void approveCourses(Course course) {
+        course.setIsApproved(true);
+        System.out.println(course.toString());
+        getEntityManager().merge(course);
+
+        getEntityManager().getTransaction().commit();
+    }
+
 }

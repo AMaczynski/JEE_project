@@ -38,6 +38,7 @@ public class CourseWebService {
             .size("Size")
             .prize(0.0)
             .build();
+
     private String name;
     private double price;
     private String size;

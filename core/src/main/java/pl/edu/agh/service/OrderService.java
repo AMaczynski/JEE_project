@@ -1,7 +1,7 @@
 package pl.edu.agh.service;
 
 import pl.edu.agh.api.IOrderService;
-import pl.edu.agh.datamodel.Course;
+import pl.edu.agh.datamodel.Address;
 import pl.edu.agh.datamodel.Order;
 
 import javax.ejb.Remote;
@@ -19,8 +19,18 @@ import java.util.List;
 public class OrderService extends BaseService implements IOrderService {
 
     @Override
-    public Order placeOrder(Order order) {
+    public Order placeOrder(Order order, Address address) {
         EntityManager em = getEntityManager();
+        Address userAddress = order.getUser().getAddress();
+        if(!userAddress.getCity().equals(address.getCity()) ||
+        !userAddress.getStreet().equals(address.getStreet()) ||
+                !(userAddress.getBuildingNumber() == address.getBuildingNumber()) ||
+                !(userAddress.getApartmentNumber() == address.getApartmentNumber())) {
+            em.persist(address);
+        } else {
+            order.setAddress(userAddress);
+        }
+        order.setAddress(address);
         em.persist(order);
         em.getTransaction().commit();
         return order;

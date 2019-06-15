@@ -16,10 +16,9 @@ public interface ICourseService {
 
     Course queryCourseById(long id);
 
-    List<Course> queryAllCourses();
-
-    List<Course> queryAllApprovedCourses();
+    List<Course> queryCourses(boolean approved);
 
     List<Course> queryCourseByCategory(long categoryId);
 
+    void approveCourses(Course courses);
 }

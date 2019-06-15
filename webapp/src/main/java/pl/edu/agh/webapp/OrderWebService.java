@@ -41,6 +41,7 @@ public class OrderWebService {
     private IScheduleService scheduleService;
 
     private Address address = new Address();
+    private boolean defaultAddress;
     private Date dateTo;
     private Date dateFrom;
     private Order selectedOrder;
@@ -64,7 +65,11 @@ public class OrderWebService {
         dayOfWeeks.add(DayOfWeek.SATURDAY);
         dayOfWeeks.add(DayOfWeek.SUNDAY);
         if (userService.isLogged()) {
-            address = userService.getUser().getAddress();
+            Address tempAddress = userService.getUser().getAddress();
+            address.setApartmentNumber(tempAddress.getApartmentNumber());
+            address.setBuildingNumber(tempAddress.getBuildingNumber());
+            address.setStreet(tempAddress.getStreet());
+            address.setCity(tempAddress.getCity());
             if (userService.isClient())
                 orders = orderService.getUserOrders(userService.getUser().getId());
             else if (userService.isCook())
@@ -74,6 +79,10 @@ public class OrderWebService {
             else if (userService.isManager())
                 orders = orderService.getAllOrders();
         }
+    }
+
+    public void changeDefaultAddress() {
+        this.defaultAddress = !this.defaultAddress;
     }
 
     public boolean isOneTime() {
@@ -89,22 +98,11 @@ public class OrderWebService {
         if (cartService.getCart().isEmpty()) {
             return "empty cart";
         }
-        Address actualAddress = new Address();
-        if (isAddressChanged()) {
-            actualAddress = Address.builder()
-                    .apartmentNumber(address.getApartmentNumber())
-                    .buildingNumber(address.getBuildingNumber())
-                    .city(address.getCity())
-                    .street(address.getStreet())
-                    .build();
-        } else {
-            actualAddress = userService.getUser().getAddress();
-        }
         if (isScheduled()) {
-            addScheduledOrder(actualAddress);
-            addOneTimeOrder(actualAddress);
+            addScheduledOrder();
+            addOneTimeOrder();
         } else {
-            addOneTimeOrder(actualAddress);
+            addOneTimeOrder();
         }
         cartService.setCart(new ArrayList<>());
         return "orderSuccess";
@@ -114,26 +112,18 @@ public class OrderWebService {
         orders = orderService.getUserOrdersInDateRange(userService.getUser().getId(), dateFrom, dateTo);
     }
 
-    private boolean isAddressChanged() {
-        Address userAddress = userService.getUser().getAddress();
-        return userAddress.getApartmentNumber() != address.getApartmentNumber() ||
-                userAddress.getBuildingNumber() != address.getBuildingNumber() ||
-                !userAddress.getCity().equals(address.getCity()) ||
-                !userAddress.getStreet().equals(address.getStreet());
-    }
-
-    private void addOneTimeOrder(Address address) {
+    private void addOneTimeOrder() {
         Order order = Order.builder()
-                .address(address)
+                .address(null)
                 .course(cartService.getCart())
                 .date(new Date())
                 .user(userService.getUser())
                 .status(0)
                 .build();
-        orderService.placeOrder(order);
+        orderService.placeOrder(order, address);
     }
 
-    private void addScheduledOrder(Address address) {
+    private void addScheduledOrder() {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         String dateFormatted = formatter.format(time);
