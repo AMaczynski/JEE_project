@@ -19,3 +19,26 @@
     width: 100%;
     box-sizing: border-box;
 }
+
+.white-button.ui-button.ui-state-default {
+    background-color: #ffffff;
+    color: #222222;
+    border-color: #d6d6d6;
+    /* with the exported variables from Nova and Luna Themes*/
+    border-color: var(--input-border-color, #d6d6d6);
+}
+
+.white-button.ui-button.ui-state-default:enabled:hover,
+.white-button.ui-button.ui-state-default:focus {
+    background-color: #f2f2f2;
+    border-color: #ccc;
+    color: #373a3c;
+    /* with the exported variables from Nova and Luna Themes*/
+    border-color: var(--input-hover-border-color, #ccc);
+}
+
+
+div.ui-datatable{
+    margin-left: 80px;
+    margin-right: 80px;
+}

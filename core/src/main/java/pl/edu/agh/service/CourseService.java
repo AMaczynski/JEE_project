@@ -7,10 +7,13 @@ import pl.edu.agh.datamodel.Course;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -82,6 +85,28 @@ public class CourseService extends BaseService implements ICourseService {
         }
         return courses.stream().sorted(Comparator.comparing(e -> e.getCategory().getName())).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Course> getTopCourses(int limit) {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("JPA");
+        EntityManager em = factory.createEntityManager();
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Course> query = builder.createQuery(Course.class);
+        Root<Course> root = query.from(Course.class);
+        Predicate predicate = builder.equal(root.get("isApproved"), true);
+        Predicate notArchivedPredicate = builder.equal(root.get("isArchived"), false);
+        query.where(predicate, notArchivedPredicate);
+        query.orderBy(builder.desc(root.get("ordered")));
+        List<Course> courses = em.createQuery(query).getResultList();
+        em.close();
+        if (courses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        if (limit > courses.size())
+            limit = courses.size();
+        return new ArrayList<>(courses.subList(0, limit));
+    }
+
 
     @Override
     public List<Course> queryCourseByCategory(long categoryId) {

@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static pl.edu.agh.webapp.Utils.addressToString;
 import static pl.edu.agh.webapp.Utils.statusToString;
 
 @ManagedBean(name = "Order")
@@ -34,6 +35,9 @@ public class OrderWebService {
     @ManagedProperty(value = "#{Cart}")
     private CartService cartService;
 
+    @ManagedProperty(value = "#{Top}")
+    private TopService topService;
+
     @EJB(lookup = "java:global/core/OrderService")
     private IOrderService orderService;
 
@@ -45,6 +49,8 @@ public class OrderWebService {
     private Date dateTo;
     private Date dateFrom;
     private Order selectedOrder;
+
+    private boolean noDelivery;
 
     private List<Order> orders;
     private List<Order> loadedOrders;
@@ -98,6 +104,19 @@ public class OrderWebService {
         if (cartService.getCart().isEmpty()) {
             return "empty cart";
         }
+        Address actualAddress;
+        if (noDelivery)
+            actualAddress = null;
+        else {
+            actualAddress = Address.builder()
+                    .apartmentNumber(address.getApartmentNumber())
+                    .buildingNumber(address.getBuildingNumber())
+                    .city(address.getCity())
+                    .street(address.getStreet())
+                    .build();
+
+
+        }
         if (isScheduled()) {
             addScheduledOrder();
             addOneTimeOrder();
@@ -105,6 +124,7 @@ public class OrderWebService {
             addOneTimeOrder();
         }
         cartService.setCart(new ArrayList<>());
+        topService.createTop();
         return "orderSuccess";
     }
 
@@ -129,14 +149,14 @@ public class OrderWebService {
         String dateFormatted = formatter.format(time);
         List<Schedule> schedules = new ArrayList<>();
         for (DayOfWeek dayOfWeek : selectedDays) {
-                Schedule schedule = Schedule.builder()
-                        .dayOfWeek(dayOfWeek)
-                        .time(dateFormatted)
-                        .address(address)
-                        .course(cartService.getCart())
-                        .user(userService.getUser())
-                        .build();
-                schedules.add(schedule);
+            Schedule schedule = Schedule.builder()
+                    .dayOfWeek(dayOfWeek)
+                    .time(dateFormatted)
+                    .address(address)
+                    .course(cartService.getCart())
+                    .user(userService.getUser())
+                    .build();
+            schedules.add(schedule);
         }
         scheduleService.addSchedules(schedules);
     }
@@ -145,9 +165,17 @@ public class OrderWebService {
         return statusToString(order.getStatus());
     }
 
+    public String addressStr(Order order) {
+        return addressToString(order.getAddress());
+    }
+
+    public String addressToStr(Address address) {
+        return addressToString(address);
+    }
+
 
     public String nextStatus(Order order) {
-        return statusToString(order.getStatus()+1);
+        return statusToString(order.getStatus() + 1);
     }
 
     public void proceed() {

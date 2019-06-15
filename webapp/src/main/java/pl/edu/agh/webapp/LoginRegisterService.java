@@ -35,7 +35,6 @@ public class LoginRegisterService {
         if (u != null) {
             userService.setUser(u);
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage("Successful", "Login success"));
         }
     }
 

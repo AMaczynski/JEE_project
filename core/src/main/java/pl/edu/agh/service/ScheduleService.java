@@ -53,4 +53,5 @@ public class ScheduleService extends BaseService implements IScheduleService {
         em.remove(schedule);
         em.getTransaction().commit();
     }
+
 }

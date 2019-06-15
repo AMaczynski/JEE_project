@@ -2,6 +2,7 @@ package pl.edu.agh.service;
 
 import pl.edu.agh.api.IOrderService;
 import pl.edu.agh.datamodel.Address;
+import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Order;
 
 import javax.ejb.Remote;
@@ -33,6 +34,7 @@ public class OrderService extends BaseService implements IOrderService {
         order.setAddress(address);
         em.persist(order);
         em.getTransaction().commit();
+        updateOrderCount(order.getCourse());
         return order;
     }
 
@@ -112,4 +114,20 @@ public class OrderService extends BaseService implements IOrderService {
         em.persist(order);
         em.getTransaction().commit();
     }
+
+    private void updateOrderCount(List<Course> courses) {
+        EntityManager em = getEntityManager();
+        for (Course c: courses) {
+            Course dbCourse = queryCourseById(c.getId());
+            dbCourse.setOrdered(dbCourse.getOrdered()+1);
+            em.persist(dbCourse);
+            em.getTransaction().commit();
+        }
+    }
+
+    public Course queryCourseById(long id) {
+        EntityManager em = getEntityManager();
+        return em.find(Course.class, id);
+    }
+
 }
