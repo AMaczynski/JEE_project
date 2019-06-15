@@ -27,7 +27,6 @@
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.cook}"/>
             <p:menuitem value="Manage deliveries" action="orders" icon="pi pi-times" rendered="#{User.driver}"/>
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.manager}"/>
-            <p:submenu label="Admin" icon="pi pi-cog" rendered="#{User.manager}">
                 <p:menuitem value="Add course">
                     <p:commandLink id="addCourse"
                                    oncomplete="PF('addCourseWizard').show()"
@@ -52,7 +51,6 @@
                                    immediate="true">
                     </p:commandLink>
                 </p:menuitem>
-            </p:submenu>
 
             <f:facet name="options">
                <p:commandButton value="Messages" oncomplete="PF('sidebarMessages').show()" immediate="true"
