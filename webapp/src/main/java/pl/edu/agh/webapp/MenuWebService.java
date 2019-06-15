@@ -7,6 +7,7 @@ import pl.edu.agh.datamodel.Course;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,12 @@ public class MenuWebService {
     @EJB(lookup = "java:global/core/CourseService")
     private ICourseService courseService;
 
+    @ManagedProperty(value = "#{JMSS}")
+    private JMSS jmsService;
+
+    @ManagedProperty(value = "#{User}")
+    private UserService userService;
+
     private List<Course> coursesList;
     private List<Course> courses = new ArrayList<>();
     private Course selectedCourse = Course.builder()
@@ -28,6 +35,9 @@ public class MenuWebService {
             .build();
 
     public List<Course> getCourses() {
+        if (userService.isLogged())
+            jmsService.receiveMessage();
+
         this.courses = courseService.queryCourses(false);
         return this.courses;
     }

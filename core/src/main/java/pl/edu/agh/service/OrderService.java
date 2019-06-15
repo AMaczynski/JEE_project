@@ -1,10 +1,12 @@
 package pl.edu.agh.service;
 
+import pl.edu.agh.api.IJMSSender;
 import pl.edu.agh.api.IOrderService;
 import pl.edu.agh.datamodel.Address;
 import pl.edu.agh.datamodel.Course;
 import pl.edu.agh.datamodel.Order;
 
+import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,6 +22,9 @@ import java.util.List;
 @Stateless
 @Remote(IOrderService.class)
 public class OrderService extends BaseService implements IOrderService {
+
+    @EJB(lookup = "java:global/core/JMSSender")
+    private IJMSSender jmsSender;
 
     @Override
     public Order placeOrder(Order order, Address address) {
@@ -115,6 +120,8 @@ public class OrderService extends BaseService implements IOrderService {
         order.setStatus(-1);
         em.persist(order);
         em.getTransaction().commit();
+        jmsSender.sendMessage(order.getUser().getLogin() + ": Order canceled.");
+
     }
 
     @Override

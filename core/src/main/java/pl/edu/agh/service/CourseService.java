@@ -55,11 +55,17 @@ public class CourseService extends BaseService implements ICourseService {
         Course course = em.find(Course.class, id);
         course.setArchived(true);
         em.getTransaction().commit();
-        jmsSender.sendMessage(String.valueOf(id));
+//        jmsSender.sendMessage(String.valueOf(id));
+        jmsSender.sendMessage("Course " + course.getName() + " has been deleted.");
+
     }
+
 
     @Override
     public Course editCourse(Course newCourse) {
+        System.out.println("Sending edit course");
+        jmsSender.sendMessage("Course " + newCourse.getName() + " has been changed.");
+
         EntityManager em = getEntityManager();
         Course course = em.find(Course.class, newCourse.getId());
         course.setName(newCourse.getName());

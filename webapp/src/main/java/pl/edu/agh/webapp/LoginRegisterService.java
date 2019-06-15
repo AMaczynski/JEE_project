@@ -29,6 +29,9 @@ public class LoginRegisterService {
     @ManagedProperty(value = "#{User}")
     private UserService userService;
 
+    @ManagedProperty(value = "#{JMSS}")
+    private JMSS jmsService;
+
     @EJB(lookup = "java:global/core/AuthService")
     private IAuthService authService;
 
