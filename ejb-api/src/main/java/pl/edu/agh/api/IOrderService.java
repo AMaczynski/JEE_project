@@ -25,4 +25,6 @@ public interface IOrderService {
     void proceedOrder(long id);
 
     void cancelOrder(long id);
+
+    List<Order> getOrdersByUserAndMonth(int month, long userId);
 }

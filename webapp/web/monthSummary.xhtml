@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Month Summary</title>
+    <h:outputStylesheet library="css" name="table-style.css"/>
+</h:head>
+
+
+<h:body>
+    <h:form id="menu">
+        <p:growl id="messages"/>
+
+        <p:menubar>
+            <p:menuitem value="Back" action="menu" icon="pi pi-times"/>
+        </p:menubar>
+
+        <p:dataTable var="order"
+                     id="singleDT"
+                     value="#{Summary.orders}"
+                     selection="#{RegularOrder.selectedSchedule}"
+                     rowKey="#{order.id}"
+                     styleClass="myDT"
+                     expandableRowGroups="false">
+            <f:facet name="header">
+                <p:selectOneMenu id="month" value="#{Summary.month}" style="width: 125px">
+                    <f:selectItem itemLabel="January" itemValue="0"/>
+                    <f:selectItem itemLabel="February" itemValue="1"/>
+                    <f:selectItem itemLabel="March" itemValue="2"/>
+                    <f:selectItem itemLabel="April" itemValue="3"/>
+                    <f:selectItem itemLabel="May" itemValue="4"/>
+                    <f:selectItem itemLabel="June" itemValue="5"/>
+                    <f:selectItem itemLabel="July" itemValue="6"/>
+                    <f:selectItem itemLabel="August" itemValue="7"/>
+                    <f:selectItem itemLabel="September" itemValue="8"/>
+                    <f:selectItem itemLabel="October" itemValue="9"/>
+                    <f:selectItem itemLabel="November" itemValue="10"/>
+                    <f:selectItem itemLabel="december" itemValue="11"/>
+                </p:selectOneMenu>
+                <p:commandButton value="Ajax Submit" id="ajax" update="@(.myDT)" action="#{Summary.getOrdersForMonth()}"
+                                 style="margin-right:20px;" styleClass="ui-priority-primary"/>
+            </f:facet>
+            <p:column headerText="Time" groupRow="false">
+                <h:outputText value="#{order.date}"/>
+            </p:column>
+            <p:column headerText="Order content">
+                <p:dataTable var="course1"
+                             value="#{order.course}"
+                             rowKey="#{course1.id}"
+                             expandableRowGroups="false">
+                    <p:column headerText="Name">
+                        <h:outputText value="#{course1.name}"/>
+                    </p:column>
+                    <p:column headerText="Size">
+                        <h:outputText value="#{course1.size}"/>
+                    </p:column>
+                    <p:column headerText="Prize">
+                        <h:outputText value="#{course1.prize}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:column>
+            <p:column headerText="Address ">
+                <h:outputText value="#{Order.addressToStr(order.address)}"/>
+            </p:column>
+            <f:facet name="footer">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Sum for month: "/>
+                    <h:outputText value="#{Summary.sum} zł"/>
+                </h:panelGrid>
+            </f:facet>
+        </p:dataTable>
+    </h:form>
+
+
+</h:body>
+
+</html>
+
+

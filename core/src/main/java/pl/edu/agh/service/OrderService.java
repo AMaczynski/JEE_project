@@ -12,6 +12,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -113,6 +115,21 @@ public class OrderService extends BaseService implements IOrderService {
         order.setStatus(-1);
         em.persist(order);
         em.getTransaction().commit();
+    }
+
+    @Override
+    public List<Order> getOrdersByUserAndMonth(int month, long userId) {
+        List<Order> orders = getUserOrders(userId);
+        List<Order> goodOrders = new ArrayList<>();
+        for (Order o : orders) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(o.getDate());
+            int oMonth = calendar.get(Calendar.MONTH);
+            if (oMonth == month) {
+                goodOrders.add(o);
+            }
+        }
+        return goodOrders;
     }
 
     private void updateOrderCount(List<Course> courses) {
