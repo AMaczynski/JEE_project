@@ -37,9 +37,6 @@ public class Course implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column
-    private long counter;
-
     @Column(nullable = false)
     private String size;
 

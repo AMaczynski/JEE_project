@@ -31,13 +31,9 @@ public class CategoryService extends BaseService implements ICategoryService {
 
     @Override
     public void deleteCategory(long id) {
-        EntityManager em = getEntityManager();
         List<Course> courses = iCourseService.queryCourseByCategory(id);
         courses.forEach(e -> e.setArchived(true));
         courses.forEach(e -> iCourseService.editCourse(e));
-
-        Category category = em.find(Category.class, id);
-        category.setArchived(true);
     }
 
     @Override

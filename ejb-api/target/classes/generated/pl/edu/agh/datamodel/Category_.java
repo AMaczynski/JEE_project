@@ -8,11 +8,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Category.class)
 public abstract class Category_ {
 
-	public static volatile SingularAttribute<Category, Boolean> isArchived;
 	public static volatile SingularAttribute<Category, String> name;
 	public static volatile SingularAttribute<Category, Long> id;
 
-	public static final String IS_ARCHIVED = "isArchived";
 	public static final String NAME = "name";
 	public static final String ID = "id";
 
