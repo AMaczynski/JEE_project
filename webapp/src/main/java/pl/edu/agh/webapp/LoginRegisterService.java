@@ -20,6 +20,8 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "LoginRegisterService")
 @ViewScoped
 public class LoginRegisterService {
+    private String currentPassword;
+    private String newPassword;
     private String inputLogin;
     private String inputPassword;
     private Address address = new Address();
@@ -34,14 +36,33 @@ public class LoginRegisterService {
         User u = authService.authorizeUser(inputLogin, inputPassword);
         if (u != null) {
             userService.setUser(u);
+        } else {
             FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "Wrong login and/or password"));
         }
     }
 
 
     public void register() {
-        authService.addUser(inputLogin, inputPassword, address);
+        User u = authService.addUser(inputLogin, inputPassword, address);
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful", "Registration success"));
+        if (u != null) {
+            context.addMessage(null, new FacesMessage("Successful", "Registration success"));
+        } else {
+            context.addMessage(null, new FacesMessage("Error", "Username taken"));
+        }
+    }
+
+    public void changePassword() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        User u = authService.changePassword(userService.getUser().getLogin(), currentPassword, newPassword);
+        if (u != null) {
+            userService.setUser(u);
+            context.addMessage(null, new FacesMessage("Successful", "Password change success"));
+        }
+        else {
+            context.addMessage(null, new FacesMessage("Error", "Your current password doesnt match"));
+        }
     }
 }

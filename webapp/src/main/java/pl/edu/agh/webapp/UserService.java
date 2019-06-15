@@ -8,6 +8,8 @@ import pl.edu.agh.datamodel.User;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import static pl.edu.agh.webapp.Utils.roleToString;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +40,8 @@ public class UserService {
     }
 
     public void logout() { user = null; }
+
+    public String role() {
+        return roleToString(user.getRole());
+    }
 }

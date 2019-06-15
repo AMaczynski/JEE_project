@@ -17,13 +17,9 @@
         <p:growl id="messages"/>
 
         <p:menubar>
-            <p:menuitem type="button" icon="pi pi-home" rendered="#{Cart.cartSize > 0}">
-                <p:commandLink id="summary"
-                               action="#{Cart.order}"
-                               immediate="true">
-                    <h:outputText value="Place order (#{Cart.cartSize} courses)"/>
-                </p:commandLink>
-            </p:menuitem>
+            <p:menuitem value="Place order (#{Cart.cartSize} courses)" action="order" icon="pi pi-times"
+                        rendered="#{Cart.cartSize > 0}"/>
+
             <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Your orders" action="orders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.cook}"/>
@@ -42,11 +38,10 @@
                                    immediate="true">
                     </p:commandLink>
                 </p:menuitem>
-                <p:menuitem icon="pi pi-refresh">
+                <p:menuitem value="Approve courses">
                     <p:commandLink id="approveCourses"
                                    oncomplete="PF('approveDialog').show()"
                                    immediate="true">
-                        <h:outputText value="Approve courses"/>
                     </p:commandLink>
                 </p:menuitem>
                 <p:menuitem value="Edit categories">
@@ -58,21 +53,13 @@
             </p:submenu>
 
             <f:facet name="options">
-                <p:menuitem type="button" value="Logout" rendered="#{User.logged}" icon="pi pi-home">
-                    <p:commandLink id="logout"
-                                   action="#{User.logout}"
-                                   immediate="true"
-                                   update="menu">
-                        <p:outputLabel value="Logout"/>
-                    </p:commandLink>
-                </p:menuitem>
-                <p:menuitem type="button" value="Login" rendered="#{!User.logged}" icon="pi pi-home">
-                    <p:commandLink id="showLogin"
-                                   oncomplete="PF('sidebarLogin').show()"
-                                   immediate="true">
-                        <p:outputLabel value="Login/Register"/>
-                    </p:commandLink>
-                </p:menuitem>
+                <p:commandButton value="Logout" action="#{User.logout}" immediate="true" update="menu" icon="pi pi-home"
+                                 rendered="#{User.logged}"/>
+                <p:commandButton value="Login/Register" oncomplete="PF('sidebarLogin').show()" immediate="true"
+                                 icon="pi pi-home" rendered="#{!User.logged}"/>
+                <p:commandButton value="My profile" oncomplete="PF('sidebarProfile').show()" immediate="true"
+                                 icon="pi pi-home" rendered="#{User.logged}"/>
+
             </f:facet>
         </p:menubar>
 
@@ -363,6 +350,23 @@
                 <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.register}"/>
             </h:panelGrid>
         </h:form>
+    </p:sidebar>
+
+
+    <p:sidebar widgetVar="sidebarProfile" position="right" baseZIndex="10000" rendered="#{User.logged}">
+        <h1 style="font-weight:normal"><h:outputText value="#{User.user.login}"/></h1>
+        <h2 style="font-weight:normal"><h:outputText value="#{User.role()}"/></h2>
+        <h2 style="font-weight:normal">Change password</h2>
+        <h:form id="formChangePwd">
+            <h:panelGrid columns="2">
+                <p:outputLabel id="userOldPwdLabel" for="j_old" value="Old password:"/>
+                <p:password id="j_old" value="#{LoginRegisterService.currentPassword}"/>
+                <p:outputLabel id="userNewPwdLabel" for="j_new" value="New password:"/>
+                <p:password id="j_new" value="#{LoginRegisterService.newPassword}" feedback="true" inline="true"/>
+                <h:commandButton type="submit" value="submit" action="#{LoginRegisterService.changePassword}"/>
+            </h:panelGrid>
+        </h:form>
+
     </p:sidebar>
 </h:body>
 

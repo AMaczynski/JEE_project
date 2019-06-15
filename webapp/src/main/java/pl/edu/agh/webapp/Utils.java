@@ -28,6 +28,25 @@ public class Utils {
         }
     }
 
+    public static String roleToString(int status) {
+        switch(status) {
+            case Const.ROLE_CLIENT:
+                return "Client";
+
+            case Const.ROLE_MANAGER:
+                return "Manager";
+
+            case Const.ROLE_COOK:
+                return "Cook";
+
+            case Const.ROLE_DRIVER:
+                return "Driver";
+
+            default:
+                return "";
+        }
+    }
+
     public static String addressToString(Address address) {
         if (address == null)
             return "Odbior osobisty";
