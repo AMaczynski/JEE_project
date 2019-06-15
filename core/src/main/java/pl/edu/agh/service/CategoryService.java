@@ -56,8 +56,6 @@ public class CategoryService extends BaseService implements ICategoryService {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Category> query = builder.createQuery(Category.class);
         Root<Category> root = query.from(Category.class);
-        Predicate notArchivedPredicate = builder.equal(root.get("isArchived"), false);
-        query.where(notArchivedPredicate);
         return em.createQuery(query).getResultList();
     }
 
