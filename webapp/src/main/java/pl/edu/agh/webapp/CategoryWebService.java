@@ -35,6 +35,7 @@ public class CategoryWebService {
     public String addCategory() {
         newCategory = new Category();
         newCategory.setName(newCategoryName);
+        categories.add(newCategory);
         newCategory = categoryService.addCategory(newCategory);
         if (nonNull(newCategory)) {
             return "Success";
@@ -48,6 +49,7 @@ public class CategoryWebService {
     }
 
     public void deleteCategory() {
+        categories.remove(selectedCategory);
         categoryService.deleteCategory(selectedCategory.getId());
     }
 

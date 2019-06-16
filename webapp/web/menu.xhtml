@@ -153,9 +153,9 @@
         </p:outputPanel>
     </p:dialog>
 
-    <p:dialog header="Edit Categories" widgetVar="editCategory" modal="true" showEffect="fade" width="30%"
-              hideEffect="fade"
-              resizable="false">
+    <p:dialog header="Edit Categories" widgetVar="editCategory" modal="true" showEffect="fade" hideEffect="fade"
+              width="40%"
+              resizable="true">
         <p:outputPanel id="editCategory" style="text-align:center;">
             <h:form id="form">
                 <p:dataTable id="categories"
@@ -171,16 +171,16 @@
                                 <h:outputText value="#{category.name}"/>
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText id="modelInput" value="#{category.name}" style="width:100%"/>
+                                <p:inputText id="modelInput" value="#{category.name}"/>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column style="width:35px">
+                    <p:column style="width:30px;text-align: center">
                         <p:rowEditor/>
                     </p:column>
 
-                    <p:column style="width:32px;text-align: center">
+                    <p:column style="width:100px;text-align: center">
                         <p:commandButton update="confirmDeleteCategory" oncomplete="PF('confirmDeleteCategory').show()"
                                          value="Delete" title="Delete">
                             <f:setPropertyActionListener value="#{category}" target="#{Category.selectedCategory}"/>
@@ -257,9 +257,10 @@
 
                                 <h:outputText value="Category: "/>
                                 <h:outputText value="#{Course.categoryName}" styleClass="ui-outputlabel"/>
+                                <p:commandButton type="submit" value="Submit" action="#{Course.addCourse}" update="menu"
+                                                 process="@this"/>
                             </h:panelGrid>
-                            <p:commandButton type="submit" value="Submit" action="#{Course.addCourse}" update="menu"
-                                             process="@this"/>
+
                         </p:panel>
                     </p:tab>
                 </p:wizard>
