@@ -10,7 +10,7 @@ public interface ICategoryService {
 
     void deleteCategory(long id);
 
-    Category editCategory(Category category);
+    void editCategory(Category category);
 
     Category queryCategoryById(long id);
 

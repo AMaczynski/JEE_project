@@ -37,11 +37,10 @@ public class CategoryService extends BaseService implements ICategoryService {
     }
 
     @Override
-    public Category editCategory(Category category) {
+    public void editCategory(Category category) {
         EntityManager em = getEntityManager();
         em.merge(category);
         em.getTransaction().commit();
-        return category;
     }
 
     @Override

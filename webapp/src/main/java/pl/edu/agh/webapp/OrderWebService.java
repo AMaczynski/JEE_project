@@ -104,26 +104,13 @@ public class OrderWebService {
         if (cartService.getCart().isEmpty()) {
             return "empty cart";
         }
-        Address actualAddress;
-        if (noDelivery)
-            actualAddress = null;
-        else {
-            actualAddress = Address.builder()
-                    .apartmentNumber(address.getApartmentNumber())
-                    .buildingNumber(address.getBuildingNumber())
-                    .city(address.getCity())
-                    .street(address.getStreet())
-                    .build();
-
-
-        }
         if (isScheduled()) {
             addScheduledOrder();
             addOneTimeOrder();
         } else {
             addOneTimeOrder();
         }
-        cartService.setCart(new ArrayList<>());
+        cartService.clearCart();
         topService.createTop();
         return "orderSuccess";
     }

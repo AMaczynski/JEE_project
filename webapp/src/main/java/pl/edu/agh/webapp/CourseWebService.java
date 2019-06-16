@@ -30,9 +30,6 @@ public class CourseWebService {
     @EJB(lookup = "java:global/core/JMSSender")
     private IJMSSender jmsSender;
 
-    @ManagedProperty(value = "#{User}")
-    private UserService userService;
-
     private Course selectedCourse = Course.builder()
             .name("Name")
             .size("Size")
@@ -44,13 +41,12 @@ public class CourseWebService {
     private String size;
     private String categoryName;
 
-    public String editCourse() {
+    public void editCourse() {
         if (nonNull(categoryName)) {
             Category category = categoryService.getCategoryByName(categoryName);
             selectedCourse.setCategory(category);
         }
         courseService.editCourse(selectedCourse);
-        return "Success";
     }
 
     public void addCourse() {
@@ -68,6 +64,5 @@ public class CourseWebService {
 
     public void deleteCourse() {
         courseService.deleteCourse(selectedCourse.getId());
-        jmsSender.sendMessage(String.valueOf(selectedCourse.getId()));
     }
 }

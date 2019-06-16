@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import pl.edu.agh.datamodel.User;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
 import static pl.edu.agh.webapp.Utils.roleToString;
@@ -17,6 +18,9 @@ import static pl.edu.agh.webapp.Utils.roleToString;
 @SessionScoped
 public class UserService {
 
+    @ManagedProperty(value = "#{Cart}")
+    private CartService cartService;
+
     private User user;
 
     public boolean isLogged() {
@@ -24,7 +28,7 @@ public class UserService {
     }
 
     public boolean isManager() {
-        return  user != null && user.getRole() == Const.ROLE_MANAGER;
+        return user != null && user.getRole() == Const.ROLE_MANAGER;
     }
 
     public boolean isCook() {
@@ -39,7 +43,10 @@ public class UserService {
         return user != null && user.getRole() == Const.ROLE_CLIENT;
     }
 
-    public void logout() { user = null; }
+    public void logout() {
+        user = null;
+        cartService.clearCart();
+    }
 
     public String role() {
         return roleToString(user.getRole());

@@ -29,12 +29,11 @@ public class CourseService extends BaseService implements ICourseService {
     private IJMSSender jmsSender;
 
     @Override
-    public Course addCourse(Course course) {
+    public void addCourse(Course course) {
         course.setIsApproved(true);
         EntityManager em = getEntityManager();
         em.persist(course);
         em.getTransaction().commit();
-        return course;
     }
 
     @Override
@@ -55,14 +54,13 @@ public class CourseService extends BaseService implements ICourseService {
         Course course = em.find(Course.class, id);
         course.setArchived(true);
         em.getTransaction().commit();
-//        jmsSender.sendMessage(String.valueOf(id));
         jmsSender.sendMessage("Course " + course.getName() + " has been deleted.");
 
     }
 
 
     @Override
-    public Course editCourse(Course newCourse) {
+    public void editCourse(Course newCourse) {
         System.out.println("Sending edit course");
         jmsSender.sendMessage("Course " + newCourse.getName() + " has been changed.");
 
@@ -73,7 +71,6 @@ public class CourseService extends BaseService implements ICourseService {
         course.setCategory(newCourse.getCategory());
         course.setPrize(newCourse.getPrize());
         course.setSize(newCourse.getSize());
-        return em.merge(course);
     }
 
     @Override

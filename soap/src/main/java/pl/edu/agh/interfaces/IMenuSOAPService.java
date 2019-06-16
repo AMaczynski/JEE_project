@@ -9,6 +9,6 @@ import javax.jws.WebService;
 public interface IMenuSOAPService {
 
     @WebMethod
-    public Course addCourses(Course newCourse);
+    Course addCourses(Course newCourse);
 
 }

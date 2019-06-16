@@ -2,7 +2,6 @@ package pl.edu.agh.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class Security {
     public static String hashSha256(String passwordToHash, byte[] salt)

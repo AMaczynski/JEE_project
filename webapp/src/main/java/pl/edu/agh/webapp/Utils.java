@@ -49,7 +49,7 @@ public class Utils {
 
     public static String addressToString(Address address) {
         if (address == null)
-            return "Odbior osobisty";
+            return "Collect in person";
         else {
             return String.format("%s %s %d/%d", address.getCity(), address.getStreet(), address.getBuildingNumber(), address.getApartmentNumber());
         }
