@@ -67,7 +67,6 @@ public class CourseWebService {
     }
 
     public void deleteCourse() {
-        System.out.println("id: " + userService.getUser().getId());
         courseService.deleteCourse(selectedCourse.getId());
         jmsSender.sendMessage(String.valueOf(selectedCourse.getId()));
     }

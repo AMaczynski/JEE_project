@@ -41,7 +41,7 @@
                     <f:selectItem itemLabel="November" itemValue="10"/>
                     <f:selectItem itemLabel="december" itemValue="11"/>
                 </p:selectOneMenu>
-                <p:commandButton value="Ajax Submit" id="ajax" update="@(.myDT)" action="#{Summary.getOrdersForMonth()}"
+                <p:commandButton value="Submit" id="ajax" update="@(.myDT)" action="#{Summary.getOrdersForMonth()}"
                                  style="margin-right:20px;" styleClass="ui-priority-primary"/>
             </f:facet>
             <p:column headerText="Time" groupRow="false">

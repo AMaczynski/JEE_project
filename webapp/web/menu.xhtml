@@ -20,37 +20,21 @@
             <p:menuitem value="Place order (#{Cart.cartSize} courses)" action="order" icon="pi pi-times"
                         rendered="#{Cart.cartSize > 0}"/>
 
-            <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times"/>
             <p:menuitem value="Regular orders" action="regularOrders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Your orders" action="orders" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Month Summary" action="monthSummary" icon="pi pi-times" rendered="#{User.client}"/>
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.cook}"/>
             <p:menuitem value="Manage deliveries" action="orders" icon="pi pi-times" rendered="#{User.driver}"/>
             <p:menuitem value="Manage orders" action="orders" icon="pi pi-times" rendered="#{User.manager}"/>
-                <p:menuitem value="Add course">
-                    <p:commandLink id="addCourse"
-                                   oncomplete="PF('addCourseWizard').show()"
-                                   immediate="true">
-                    </p:commandLink>
-                </p:menuitem>
-                <p:menuitem value="Add category">
-                    <p:commandLink id="addCategoryc"
-                                   oncomplete="PF('addCategory').show()"
-                                   immediate="true">
-                    </p:commandLink>
-                </p:menuitem>
-                <p:menuitem value="Approve courses">
-                    <p:commandLink id="approveCourses"
-                                   oncomplete="PF('approveDialog').show()"
-                                   immediate="true">
-                    </p:commandLink>
-                </p:menuitem>
-                <p:menuitem value="Edit categories">
-                    <p:commandLink id="editCategoryc"
-                                   oncomplete="PF('editCategory').show()"
-                                   immediate="true">
-                    </p:commandLink>
-                </p:menuitem>
+            <p:menuitem value="Add course" rendered="#{User.manager}" id="addCourse"
+                        oncomplete="PF('addCourseWizard').show()" immediate="true"/>
+            <p:menuitem value="Add category" rendered="#{User.manager}" id="addCategoryc"
+                        oncomplete="PF('addCategory').show()" immediate="true"/>
+            <p:menuitem value="Approve courses" rendered="#{User.manager}" id="approveCourses"
+                        oncomplete="PF('approveDialog').show()" immediate="true"/>
+            <p:menuitem value="Edit categories" rendered="#{User.manager}" id="editCategoryc"
+                        oncomplete="PF('editCategory').show()" immediate="true"/>
+
 
             <f:facet name="options">
                <p:commandButton value="Messages" oncomplete="PF('sidebarMessages').show()" immediate="true"

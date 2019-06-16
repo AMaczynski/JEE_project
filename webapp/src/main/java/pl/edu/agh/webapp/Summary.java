@@ -48,7 +48,6 @@ public class Summary {
             }
         }
         PrimeFaces.current().ajax().update(":menu:singleDT");
-        System.out.println(sum);
     }
 
 }

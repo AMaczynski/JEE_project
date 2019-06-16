@@ -76,8 +76,6 @@ public class OrderService extends BaseService implements IOrderService {
         Root<Order> root = query.from(Order.class);
         Predicate predicate = builder.equal(root.get("user"), userId);
         Predicate predFrom = builder.between(root.get("date"), dateFrom, dateTo);
-        System.out.println(dateFrom.toString());
-        System.out.println(dateTo.toString());
         Predicate pred = builder.and(predicate, predFrom);
         query.where(pred);
         return em.createQuery(query).getResultList();

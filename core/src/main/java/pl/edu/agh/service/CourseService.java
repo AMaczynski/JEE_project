@@ -135,9 +135,7 @@ public class CourseService extends BaseService implements ICourseService {
     @Override
     public void approveCourses(Course course) {
         course.setIsApproved(true);
-        System.out.println(course.toString());
         getEntityManager().merge(course);
-
         getEntityManager().getTransaction().commit();
     }
 
