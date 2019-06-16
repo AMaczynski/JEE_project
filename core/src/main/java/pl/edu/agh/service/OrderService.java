@@ -27,7 +27,7 @@ public class OrderService extends BaseService implements IOrderService {
     private IJMSSender jmsSender;
 
     @Override
-    public Order placeOrder(Order order, Address address) {
+    public void placeOrder(Order order, Address address) {
         EntityManager em = getEntityManager();
         Address userAddress = order.getUser().getAddress();
         if(!userAddress.getCity().equals(address.getCity()) ||
@@ -42,7 +42,6 @@ public class OrderService extends BaseService implements IOrderService {
         em.persist(order);
         em.getTransaction().commit();
         updateOrderCount(order.getCourse());
-        return order;
     }
 
     @Override
@@ -50,11 +49,6 @@ public class OrderService extends BaseService implements IOrderService {
         EntityManager em = getEntityManager();
         Order category = em.find(Order.class, id);
         em.remove(category);
-    }
-
-    @Override
-    public Order editOrder(Order order) {
-        return null;
     }
 
     @Override

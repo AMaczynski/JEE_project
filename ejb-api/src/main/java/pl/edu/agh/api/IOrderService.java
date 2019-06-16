@@ -8,11 +8,9 @@ import java.util.List;
 
 public interface IOrderService {
 
-    Order placeOrder(Order order, Address address);
+    void placeOrder(Order order, Address address);
 
     void deleteOrder(long id);
-
-    Order editOrder(Order order);
 
     List<Order> getAllOrders();
 

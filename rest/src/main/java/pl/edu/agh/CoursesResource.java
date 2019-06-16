@@ -1,6 +1,5 @@
 package pl.edu.agh;
 
-import org.apache.commons.collections.list.TransformedList;
 import pl.edu.agh.api.ICourseService;
 import pl.edu.agh.datamodel.Course;
 

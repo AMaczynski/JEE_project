@@ -7,7 +7,7 @@
 >
 
 <h:head>
-    <title>Podsumowanie zamówienia</title>
+    <title>Order summary</title>
     <h:outputStylesheet library="css" name="table-style.css"/>
 </h:head>
 
@@ -58,9 +58,6 @@
                 <p:ajax event="change" update="form:panelgrid"/>
             </h:selectOneMenu>
 
-            <h:panelGrid id="pOneTime" rendered="#{Order.oneTime}">
-                One time masterrace
-            </h:panelGrid>
             <h:panelGrid id="pSchedule" rendered="#{Order.scheduled}">
                 <p:selectCheckboxMenu id="multiple" value="#{Order.selectedDays}" label="Days" multiple="true"
                                       filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
