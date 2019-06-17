@@ -9,6 +9,9 @@ public class Translator {
     public static List<Course> translateCourses(List<Course> courses, Locale targetLocale) {
         Locale localeGb = new Locale("en", "GB");
         Locale localeDe = new Locale("de", "DE");
+        System.out.println(targetLocale.toString());
+        System.out.println(localeGb.toString());
+        System.out.println(localeDe.toString());
         if (localeGb.equals(targetLocale))
             courses.forEach(e -> e.setName(e.getName() + " lovely"));
         if (localeDe.equals(targetLocale))

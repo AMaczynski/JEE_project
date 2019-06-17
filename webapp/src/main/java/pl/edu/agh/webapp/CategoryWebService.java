@@ -36,6 +36,7 @@ public class CategoryWebService {
         newCategory = new Category();
         newCategory.setName(newCategoryName);
         categories.add(newCategory);
+
         newCategory = categoryService.addCategory(newCategory);
         if (nonNull(newCategory)) {
             return "Success";
